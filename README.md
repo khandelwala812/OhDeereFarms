@@ -1,2 +1,3 @@
 # Oh Deere Farm
-A Python game created during Purdue's 2023 BoilerMake hackathon by...
+Authors: Jack Jiang, Steven Schonlau, Andy Lam, and Avi Khandelwal
+A Python farming simulator created during BoilerMake X @ Purdue.
