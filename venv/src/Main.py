@@ -64,7 +64,6 @@ class Player():
         keys = pygame.key.get_pressed()
         counter = int(time) % 2
         if keys[pygame.K_w]:
-            print(counter)
             self.image = pygame.image.load(moving_up_images[counter])
             self.pos_y += self.speed
             self.getCords()
