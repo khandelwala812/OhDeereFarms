@@ -118,7 +118,7 @@ class Menu:
         gameDisplay.blit(TextPause)
     def menuScreen(self):
         #draws fullscreen menu
-
+        pass
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
             super().__init__()
