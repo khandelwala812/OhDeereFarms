@@ -1,5 +1,8 @@
 import pygame
+import numpy as np
 from tkinter import *
+from Tile import *
+from Crop import *
 
 
 pygame.init()
@@ -16,6 +19,27 @@ map_sprite = [[1, 1, 1, 1, 1],
               [1, 1, 1, 1, 1],
               [1, 1, 1, 1, 1]]
 #############################-Camera-######################################
+def background(tile_array):
+    x, y = player.getCords()
+    offsetX = len(tile_array) / 2
+    offsetY = len(tile_array[0]) / 2
+    offsetX *= 96
+    offsetY *= 96
+    offsetX += 640
+    offsetY += 350
+    tileX = (int) ((offsetX + x) / 96)
+    tileY = (int) ((offsetY + y) / 96)
+    for i in range(tileX-8, tileX+9):
+        for j in range(tileY-5, tileY+6):
+            img = None
+            if(tile_array[i][j].condition == "empty"):
+                img = pygame.image.load('venv/src/assets/grass/grass_1.png').convert()
+            if(tile_array[i][j].condition == "tilled"):
+                img = pygame.image.load('/venv/src/assets/plot/tilled_plot.png').convert()
+
+            screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
+
+
 PLAYER_SPRITE = 'assets\deer.png'
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, group):
@@ -36,10 +60,10 @@ class Player(pygame.sprite.Sprite):
             self.pos_y -= self.speed
             self.getCords()
         elif keys[pygame.K_d]:
-            self.pos_x += self.speed
+            self.pos_x -= self.speed
             self.getCords()
         elif keys[pygame.K_a]:
-            self.pos_x -= self.speed
+            self.pos_x += self.speed
             self.getCords()
 
     def update(self):
@@ -64,7 +88,18 @@ class CameraGroup(pygame.sprite.Group):
             
 # Setup
 camera_group = CameraGroup()
-Player((650, 250), camera_group)
+player = Player((650, 250), camera_group)
+
+crop = Crop("corn", 0, 0, 0)
+
+tile_array = [[0] * 100] * 100
+
+for i in range(0, 100):
+    for j in range(0, 100):
+        tile_array[i][j] = Tile(0, 0, crop)
+
+
+
 
 #############################-Game Loop-######################################
 while running:
@@ -72,12 +107,13 @@ while running:
 
 ####################### -Detecting Key Stroke-#############################################
     for event in pygame.event.get():
-        if event.type ==pygame.QUIT:
+        if event.type == pygame.QUIT:
             running = False
     
-    screen.fill('black')
     camera_group.update()
     camera_group.draw(screen)
-    
+    background(tile_array)
+
+
     pygame.display.flip()
     clock.tick(60)
