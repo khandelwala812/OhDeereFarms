@@ -57,11 +57,21 @@ class Player():
         elif keys[pygame.K_a]:
             self.pos_x += self.speed
             self.getCords()
-        #testing
-        #testing
-        #testing
-        screen.blit(self.image, (640, 350))
+        elif keys[pygame.K_t]:
+            x, y = player.getCords()
+            offsetX = len(tile_array) / 2
+            offsetY = len(tile_array[0]) / 2
+            offsetX *= 96
+            offsetY *= 96
+            offsetX += 640
+            offsetY += 350
+            tileX = (int) ((offsetX + x) / 96)
+            tileY = (int) ((offsetY + y) / 96)
+            if tile_array is Tile:
+                tile_array[tileX][tileY].condition += 1
+                Player.till()
 
+        screen.blit(self.image, (640, 350))
     def printCords(self):
         print(f"({self.pos_x}, {self.pos_y})")
 
