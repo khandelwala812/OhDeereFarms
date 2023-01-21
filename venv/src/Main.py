@@ -67,9 +67,35 @@ class Player():
             offsetY += 350
             tileX = (int) ((offsetX + x) / 96)
             tileY = (int) ((offsetY + y) / 96)
-            if tile_array is Tile:
+            if tile_array is Tile and tile_array[tileX][tileY].condition == "empty":
                 tile_array[tileX][tileY].condition += 1
                 Player.till()
+        elif keys[pygame.K_p]:
+            x, y = player.getCords()
+            offsetX = len(tile_array) / 2
+            offsetY = len(tile_array[0]) / 2
+            offsetX *= 96
+            offsetY *= 96
+            offsetX += 640
+            offsetY += 350
+            tileX = (int) ((offsetX + x) / 96)
+            tileY = (int) ((offsetY + y) / 96)
+            if tile_array is Tile and tile_array[tileX][tileY].condition == "tilled":
+                tile_array[tileX][tileY].condition += 1
+                Player.plant()
+        elif keys[pygame.K_h]:
+            x, y = player.getCords()
+            offsetX = len(tile_array) / 2
+            offsetY = len(tile_array[0]) / 2
+            offsetX *= 96
+            offsetY *= 96
+            offsetX += 640
+            offsetY += 350
+            tileX = (int) ((offsetX + x) / 96)
+            tileY = (int) ((offsetY + y) / 96)
+            if tile_array is Tile and tile_array[tileX][tileY].condition == "harvest":
+                tile_array[tileX][tileY].condition = 0
+                Player.harvest()
 
         screen.blit(self.image, (640, 350))
     def printCords(self):
