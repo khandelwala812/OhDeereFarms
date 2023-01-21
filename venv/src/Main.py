@@ -26,13 +26,13 @@ def background(tile_array):
         for j in range(tileY-5, tileY+6):
             img = None
             if(tile_array[i][j].condition == "empty"):
-                img = pygame.image.load('venv/src/assets/grass/grass_1.png').convert()
+                img = pygame.image.load('assets/grass/grass_1.png').convert()
             if(tile_array[i][j].condition == "tilled"):
-                img = pygame.image.load('/venv/src/assets/plot/tilled_plot.png').convert()
+                img = pygame.image.load('assets/plot/tilled_plot.png').convert()
 
             screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
 
-PLAYER_SPRITE = 'assets\deer.png'
+PLAYER_SPRITE = 'assets/john/front/front_facing_1.png'
 class Player():
     def __init__(self, pos):
         self.image = pygame.image.load(PLAYER_SPRITE)
