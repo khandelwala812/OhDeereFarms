@@ -32,10 +32,9 @@ def background(tile_array):
 
             screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
 
-PLAYER_SPRITE = 'assets/john/front/front_facing_1.png'
 class Player():
     def __init__(self, pos):
-        self.image = pygame.image.load(PLAYER_SPRITE)
+        self.image = pygame.image.load('assets/john/front/front_facing_1.png')
         self.rect = self.image.get_rect(center=pos)
         self.pos_x = pos[0]
         self.pos_y = pos[1]
@@ -47,6 +46,7 @@ class Player():
 
         if keys[pygame.K_w]:
             self.pos_y += self.speed
+            screen.blit(self.image, (self.pos_x, self.pos_y))
             self.getCords()
         elif keys[pygame.K_s]:
             self.pos_y -= self.speed
@@ -105,8 +105,7 @@ while running:
 
     background(tile_array)
     player.input()
-    
-
+    time = pygame.time.get_ticks()/600
 
     pygame.display.flip()
     clock.tick(60)
