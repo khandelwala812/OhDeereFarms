@@ -1,12 +1,23 @@
-currency = 10;
+currencyW = 10
+currencyC = 10
 
-def getCurrency():
-    return currency
-def setCurrency(num):
-    currency = num
+def getCurrencyW():
+    return currencyW
+def setCurrencyW(num):
+    currencyW = num
 
-def subCurrency(num):
-    currency -= num
+def subCurrencyW(num):
+    currencyW -= num
 
-def addCurrency(num):
-    currency += num
+def addCurrencyW(num):
+    currencyW += num
+def getCurrencyC():
+    return currencyC
+def setCurrencyC(num):
+    currencyC = num
+
+def subCurrencyC(num):
+    currencyC -= num
+
+def addCurrencyC(num):
+    currencyC += num
