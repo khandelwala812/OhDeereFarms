@@ -102,10 +102,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
+
+    background(tile_array)
     camera_group.update()
     camera_group.draw(screen)
-    background(tile_array)
+    
 
 
     pygame.display.flip()
