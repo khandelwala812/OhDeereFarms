@@ -15,7 +15,10 @@ def heatmap5(levelType):
                     elif levelType == "t":
                         tileSum += tiles[k][l].tillage
                     elif levelType == "s":
-                        tileSum += tiles[k][l].sameCrop
+                        if tiles[i][j].sameCrop < 4:
+                            tileSum += tiles[i][j].sameCrop / 3
+                        else:
+                            tileSum += 1
             heatmap[i/5][j/5] = tileSum/25
             j += 5
             i += 5
@@ -29,9 +32,12 @@ def heatmap(levelType):
             if levelType == "f":
                 tileSum += tiles[i][j].fertilizer
             elif levelType == "t":
-                tileSum += tiles[i][j].tillage
+                tileSum += 30 / ((time.time()-tiles[i][j].firstTilled) / tiles[i][j].tillage)
             elif levelType == "s":
-                tileSum += tiles[i][j].sameCrop
+                if tiles[i][j].sameCrop < 4:
+                    tileSum += tiles[i][j].sameCrop / 3
+                else:
+                    tileSum += 1
 
     return tileSum/100
 
@@ -47,7 +53,7 @@ def showHeatMap(levelType):
     for i in heatmapMatrix:
         for j in heatmapMatrix[i]:
             if heatmapMatrix[i][j] < 0.5:
-                color = (0, 0, 255*(1-heatmapMatrix[i][j]))
+                color = (0, 255*(1-heatmapMatrix[i][j]), 0)
             else:
                 color = (255*(heatmapMatrix[i][j]), 0, 0)
             pygame.draw.rect(surfaceHM, color, pygame.rect(i*5, j*5, 5, 5))
