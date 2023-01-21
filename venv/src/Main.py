@@ -1,12 +1,10 @@
-from random import random
-
 import pygame
-from tkinter import *
 from Tile import *
 from Crop import *
 from RandomTile import *
 
 pygame.init()
+
 clock = pygame.time.Clock()
 pygame.display.set_caption('John Deer Game')
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 700

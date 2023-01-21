@@ -40,9 +40,8 @@ class Tile:
         oldCondition = self._condition
         self._condition = condition
 
-        cropType = self._crop.type
         if (oldCondition == len(CONDITIONS) - 1 and condition == 0):
-            if cropType == self._lastCrop:
+            if self._crop is not None and self._crop.type == self._lastCrop:
                 self._sameCrop += 1
             else:
                 self._sameCrop = 0
