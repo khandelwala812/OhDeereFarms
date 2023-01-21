@@ -1,17 +1,34 @@
-import datetime
+import time
 
 CONDITIONS = ["empty", "tilled", "seed", "seedling", "hapling", "harvest"]
 
 
 class Tile:
-    def __init__(self, crop):
+    def __init__(self, x, y, crop):
+        self._pos = (x, y)
         self._crop = crop
         self._cropHarvests = {}
         self._growthTime = crop.growthTime
         self._condition = 0
         self._fertilizerLevel = 0
         self._tillage = 0
-        self._firstTilled = None
+        self._timeTilled = (0, 0)
+
+    @property
+    def pos(self):
+        return self._pos
+
+    @pos.setter
+    def pos(self, pos):
+        self._pos = pos
+
+    @property
+    def cropHarvests(self):
+        return self._cropHarvests
+
+    @cropHarvests.setter
+    def cropHarvests(self, harvests):
+        self._cropHarvests = harvests
 
     @property
     def growthTime(self):
@@ -38,10 +55,14 @@ class Tile:
                 self._cropHarvests[cropType] = 1
 
         if (condition == 1):
-            if (self._tillage == 0):
-                now = datetime.datetime.now()
-                self._firstTilled = now.strftime("%H:%M")
-            self._tillage += 1
+            now = int(round(time.time()))
+
+            if (self._timeTilled[0] == 0):
+                self._timeTilled = now
+            else:
+                prevTime = self._timeTilled[0]
+                self._timeTilled = (now, prevTime)
+        self._tillage += 1
 
     @property
     def fertilizerLevel(self):
@@ -50,3 +71,34 @@ class Tile:
     @fertilizerLevel.setter
     def fertilizerLevel(self, level):
         self._fertilizerLevel = level
+
+    @property
+    def tillage(self):
+        return self._tillage
+
+    @tillage.setter
+    def tillage(self, tillage):
+        self._tillage = tillage
+
+    @property
+    def firstTilled(self):
+        return self._firstTilled
+
+    @firstTilled.setter
+    def firstTilled(self, firstTilled):
+        self._firstTilled = firstTilled
+
+    def __isOverTilled(self):
+        recent, prev = self._timeTilled
+        limit = self._growthTime * 60
+
+        if (recent == 0):
+            return False
+
+        # replace 60 with meaningful variable
+        now = int(round(time.time()))
+        return (prev != 0 and recent - prev < limit) or (now - recent < limit)
+
+    def isOverTilled(self):
+        return 1 if self.__isOverTilled() else 0
+

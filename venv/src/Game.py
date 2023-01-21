@@ -7,6 +7,14 @@ class Game:
         self._tiles = np.zeros((100, 100))
         self._player = player
 
+    @property
+    def tiles(self):
+        return self._tiles
+
+    @tiles.setter
+    def tiles(self, tiles):
+        self._tiles = tiles
+
     def upgradeTile(self, pos):
         self._tiles[pos].condition += 1
 
