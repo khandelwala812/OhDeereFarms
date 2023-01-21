@@ -57,7 +57,9 @@ class Player():
         elif keys[pygame.K_a]:
             self.pos_x += self.speed
             self.getCords()
-
+        #testing
+        #testing
+        #testing
         screen.blit(self.image, (640, 350))
 
     def printCords(self):
