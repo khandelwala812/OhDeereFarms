@@ -44,9 +44,10 @@ class Player():
         self.speed = 10
         screen.blit(self.image, (self.pos_x, self.pos_y))
 
-    def input(self):
+    def input(self, time):
         keys = pygame.key.get_pressed()
         counter = int(time) % 2 
+        print(counter)
         if keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
             self.pos_y += self.speed
@@ -145,13 +146,12 @@ for x_parse in range(0, 20):
         perRow = int(rand/5)
         for x_val in range(x_parse*5, x_parse*5+5):
             this_is_a_number = 0
-            lands = random.sample(range(5), perRow)
             for y_val in range(y_parse*5, y_parse*5+5):
+                lands = random.sample(range(5), perRow)
                 if this_is_a_number in lands:
                     tile_array[x_val][y_val] = Tile()
                 else:
                     tile_array[x_val][y_val] = RandomTile()
-                this_is_a_number += 1
 
 
 
@@ -166,8 +166,8 @@ while running:
             running = False
 
     background(tile_array)
-    player.input()
-    time = pygame.time.get_ticks()/600
+    player.input(time)
+    time = pygame.time.get_ticks() / 600
 
     pygame.display.flip()
     clock.tick(60)
