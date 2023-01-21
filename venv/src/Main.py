@@ -31,12 +31,12 @@ def background(tile_array):
                 img = pygame.image.load('assets/grass/grass_1.png').convert()
             if(tile_array[i][j].condition == "tilled"):
                 img = pygame.image.load('assets/plot/tilled_plot.png').convert()
-            if(tile_array[i][j].condition == "pond"):
-                img = pygame.image.load('assets/grass/pond_1.png').convert()
+            if(tile_array[i][j].condition == "pond_1"):
+                img = pygame.image.load('assets/pond/pond_1.png').convert()
             if(tile_array[i][j].condition == "pond_2"):
-                img = pygame.image.load('assets/grass/pond_2.png').convert()
+                img = pygame.image.load('assets/pond/pond_2.png').convert()
             if(tile_array[i][j].condition == "pond_3"):
-                img = pygame.image.load('assets/grass/pond_3.png').convert()
+                img = pygame.image.load('assets/pond/pond_3.png').convert()
             if(tile_array[i][j].condition == "grass_1"):
                 img = pygame.image.load('assets/grass/grass_1.png').convert()
             if(tile_array[i][j].condition == "grass_2"):
@@ -60,11 +60,11 @@ class Player():
         self.speed = 10
         screen.blit(self.image, (self.pos_x, self.pos_y))
 
-    def input(self):
+    def input(self, time):
         keys = pygame.key.get_pressed()
-        counter = int(time) % 2 
+        counter = int(time) % 2
+        print(counter)
         if keys[pygame.K_w]:
-            print(counter)
             self.image = pygame.image.load(moving_up_images[counter])
             self.pos_y += self.speed
             self.getCords()
@@ -129,25 +129,25 @@ class Menu:
         pass
     def menuBtn(self):
         #draws button in top corner
-        pygame.draw.rect(screen, color(200, 200, 200), pygame.Rect(SCREEN_WIDTH-100, 20, 80, 40))
+        #pygame.draw.rect(screen, color(200, 200, 200), pygame.Rect(SCREEN_WIDTH-100, 20, 80, 40))
         largeText =pygame.font.Font("assets/Fonts/Daydream.ttf", 35)
-        TextPause = text_objects("Paused", largeText)
-        TextPause.center = ((SCREEN_WIDTH-50),(40))
-        gameDisplay.blit(TextPause)
+        #TextPause = text_objects("Paused", largeText)
+        #TextPause.center = ((SCREEN_WIDTH-50),(40))
+        #gameDisplay.blit(TextPause)
     def menuScreen(self):
         #draws fullscreen menu
         pass
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
-            super().__init__()
-    
+        super().__init__()
+
     def draw_sprite(self):
         #Map
 
         #Active Elements
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             self.display_durface.blit(sprite.image, sprite.rect)
-            
+
 # Setup
 camera_group = CameraGroup()
 player = Player((640,350))
@@ -176,15 +176,14 @@ for x_parse in range(0, 20):
 while running:
 
 
-####################### -Detecting Key Stroke-#############################################
+    ####################### -Detecting Key Stroke-#############################################
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
     background(tile_array)
+    player.input(time)
     time = pygame.time.get_ticks() / 600
-    Menu.menuBtn()    
-    player.input()
-
+    Menu.menuBtn()
     pygame.display.flip()
     clock.tick(60)
