@@ -145,12 +145,13 @@ for x_parse in range(0, 20):
         perRow = int(rand/5)
         for x_val in range(x_parse*5, x_parse*5+5):
             this_is_a_number = 0
+            lands = random.sample(range(5), perRow)
             for y_val in range(y_parse*5, y_parse*5+5):
-                lands = random.sample(range(5), perRow)
                 if this_is_a_number in lands:
                     tile_array[x_val][y_val] = Tile()
                 else:
                     tile_array[x_val][y_val] = RandomTile()
+                this_is_a_number += 1
 
 
 
