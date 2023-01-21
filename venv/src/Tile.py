@@ -2,7 +2,7 @@ CONDITIONS = ["empty", "tilled", "seed", "seedling", "hapling", "harvest"]
 
 
 class Tile:
-    def __int__(self, crop):
+    def __init__(self, crop):
         self._crop = crop
         self._growthTime = crop.growthTime
         self._condition = 0
