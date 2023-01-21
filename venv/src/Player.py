@@ -1,4 +1,5 @@
 import time
+import pygame
 
 # 0/1 idle 1 and 2
 # 2 work

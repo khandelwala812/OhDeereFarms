@@ -1,10 +1,8 @@
-from random import random
-
 import pygame
 from tkinter import *
 from Tile import *
 from Crop import *
-from RandomTile import *
+
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -34,10 +32,9 @@ def background(tile_array):
 
             screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
 
-PLAYER_SPRITE = 'assets\deer.png'
 class Player():
     def __init__(self, pos):
-        self.image = pygame.image.load(PLAYER_SPRITE)
+        self.image = pygame.image.load('assets/john/front/front_facing_1.png')
         self.rect = self.image.get_rect(center=pos)
         self.pos_x = pos[0]
         self.pos_y = pos[1]
@@ -49,6 +46,7 @@ class Player():
 
         if keys[pygame.K_w]:
             self.pos_y += self.speed
+            screen.blit(self.image, (self.pos_x, self.pos_y))
             self.getCords()
         elif keys[pygame.K_s]:
             self.pos_y -= self.speed
@@ -59,11 +57,47 @@ class Player():
         elif keys[pygame.K_a]:
             self.pos_x += self.speed
             self.getCords()
-        #testing
-        #testing
-        #testing
-        screen.blit(self.image, (640, 350))
+        elif keys[pygame.K_t]:
+            x, y = player.getCords()
+            offsetX = len(tile_array) / 2
+            offsetY = len(tile_array[0]) / 2
+            offsetX *= 96
+            offsetY *= 96
+            offsetX += 640
+            offsetY += 350
+            tileX = (int) ((offsetX + x) / 96)
+            tileY = (int) ((offsetY + y) / 96)
+            if tile_array is Tile and tile_array[tileX][tileY].condition == "empty":
+                tile_array[tileX][tileY].condition += 1
+                Player.till()
+        elif keys[pygame.K_p]:
+            x, y = player.getCords()
+            offsetX = len(tile_array) / 2
+            offsetY = len(tile_array[0]) / 2
+            offsetX *= 96
+            offsetY *= 96
+            offsetX += 640
+            offsetY += 350
+            tileX = (int) ((offsetX + x) / 96)
+            tileY = (int) ((offsetY + y) / 96)
+            if tile_array is Tile and tile_array[tileX][tileY].condition == "tilled":
+                tile_array[tileX][tileY].condition += 1
+                Player.plant()
+        elif keys[pygame.K_h]:
+            x, y = player.getCords()
+            offsetX = len(tile_array) / 2
+            offsetY = len(tile_array[0]) / 2
+            offsetX *= 96
+            offsetY *= 96
+            offsetX += 640
+            offsetY += 350
+            tileX = (int) ((offsetX + x) / 96)
+            tileY = (int) ((offsetY + y) / 96)
+            if tile_array is Tile and tile_array[tileX][tileY].condition == "harvest":
+                tile_array[tileX][tileY].condition = 0
+                Player.harvest()
 
+        screen.blit(self.image, (640, 350))
     def printCords(self):
         print(f"({self.pos_x}, {self.pos_y})")
 
@@ -87,21 +121,11 @@ player = Player((640,350))
 
 crop = Crop("corn", 0, 0, 0)
 
-tile_array = [[""] * 100] * 100
+tile_array = [[0] * 100] * 100
 
-for x_parse in range(0, 20):
-    for y_parse in range(0, 20):
-        rand = random.randint(5, 15)
-        perRow = int(rand/5)
-        for x_val in range(x_parse*5, x_parse*5+5):
-            this_is_a_number = 0
-            for y_val in range(y_parse*5, y_parse*5+5):
-                lands = random.sample(range(5), perRow)
-                if this_is_a_number in lands:
-                    tile_array[x_val][y_val] = Tile()
-                else:
-                    tile_array[x_val][y_val] = RandomTile()
-
+for i in range(0, 100):
+    for j in range(0, 100):
+        tile_array[i][j] = Tile(crop)
 
 
 
@@ -117,8 +141,7 @@ while running:
 
     background(tile_array)
     player.input()
-    
-
+    time = pygame.time.get_ticks()/600
 
     pygame.display.flip()
     clock.tick(60)
