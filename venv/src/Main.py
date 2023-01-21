@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame
 from tkinter import *
 
 
@@ -59,7 +59,7 @@ class CameraGroup(pygame.sprite.Group):
         #Map
 
         #Active Elements
-        for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
+        for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
             self.display_durface.blit(sprite.image, sprite.rect)
             
 # Setup
@@ -69,12 +69,13 @@ Player((650, 250), camera_group)
 #############################-Game Loop-######################################
 while running:
 
+
 ####################### -Detecting Key Stroke-#############################################
     for event in pygame.event.get():
         if event.type ==pygame.QUIT:
             running = False
     
-    screen.fill('black')    
+    screen.fill('black')
     camera_group.update()
     camera_group.draw(screen)
     
