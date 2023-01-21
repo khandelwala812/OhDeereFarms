@@ -11,7 +11,7 @@ class Game:
         self._tiles[pos].condition += 1
 
     def harvestTile(self, pos):
-        self._tiles[pos].condition = 1
+        self._tiles[pos].condition = 0
 
         return self._tiles[pos].yields
 
