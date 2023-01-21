@@ -19,10 +19,10 @@ class Player:
         timePlayer = time.time()
 
     def update(self):
-        if (skin != 0) & timePlayer + 1 < time.time():
+        if (skin != 0) and timePlayer + 1 < time.time():
             skin = 0
             timePlayer = time.time()
-        if (skin == 0) & timePlayer + 1 < time.time():
+        if (skin == 0) and timePlayer + 1 < time.time():
             skin = 1
             timePlayer = time.time()
 
