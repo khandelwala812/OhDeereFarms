@@ -44,11 +44,11 @@ class Player():
         self.speed = 10
         screen.blit(self.image, (self.pos_x, self.pos_y))
 
-    def input(self, time):
+    def input(self):
         keys = pygame.key.get_pressed()
         counter = int(time) % 2 
-        print(counter)
         if keys[pygame.K_w]:
+            print(counter)
             self.image = pygame.image.load(moving_up_images[counter])
             self.pos_y += self.speed
             self.getCords()
@@ -166,8 +166,8 @@ while running:
             running = False
 
     background(tile_array)
-    player.input(time)
     time = pygame.time.get_ticks() / 600
+    player.input()
 
     pygame.display.flip()
     clock.tick(60)
