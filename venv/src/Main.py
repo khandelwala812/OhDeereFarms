@@ -1,5 +1,4 @@
 import pygame
-import numpy as np
 from tkinter import *
 from Tile import *
 from Crop import *
