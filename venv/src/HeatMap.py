@@ -1,5 +1,6 @@
 #returns heat map based on input of f for fertilizer, t for tillage, s for same crop
 import pygame.display
+from Main import *
 
 
 def heatmap5(levelType):
@@ -32,7 +33,7 @@ def heatmap(levelType):
             if levelType == "f":
                 tileSum += tiles[i][j].fertilizer
             elif levelType == "t":
-                tileSum += 30 / ((time.time()-tiles[i][j].firstTilled) / tiles[i][j].tillage)
+                tileSum += tiles[i][j].overTilled()
             elif levelType == "s":
                 if tiles[i][j].sameCrop < 4:
                     tileSum += tiles[i][j].sameCrop / 3
