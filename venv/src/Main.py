@@ -32,6 +32,7 @@ def background(tile_array):
 
             screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
 
+moving_up_images = ['assets/john/back/back_facing_1.png', 'assets/john/back/back_facing_2.png']
 class Player():
     def __init__(self, pos):
         self.image = pygame.image.load('assets/john/front/front_facing_1.png')
@@ -43,10 +44,10 @@ class Player():
 
     def input(self):
         keys = pygame.key.get_pressed()
-
+        counter = int(time) % 2 
         if keys[pygame.K_w]:
+            self.image = pygame.image.load(moving_up_images[counter])
             self.pos_y += self.speed
-            screen.blit(self.image, (self.pos_x, self.pos_y))
             self.getCords()
         elif keys[pygame.K_s]:
             self.pos_y -= self.speed
