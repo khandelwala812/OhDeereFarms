@@ -27,12 +27,8 @@ def background(tile_array1):
     for i in range(tileX-8, tileX+9):
         for j in (range(tileY-5, tileY+6)):
             img = None
-            if(j == tileY):
-                continue
-            if(i == tileX):
-                continue
             if(tile_array1[j][i].condition == "empty"):
-                img = pygame.image.load('assets/grass/grass_1.png').convert()
+                img = pygame.image.load('assets/plot/untilled_plot.png').convert()
             elif(tile_array1[j][i].condition == "tilled"):
                 img = pygame.image.load('assets/plot/tilled_plot.png').convert()
             elif(tile_array1[j][i].condition == "pond_1"):
@@ -157,7 +153,8 @@ player = Player((640,350))
 
 crop = Crop("corn", 0, 0, 0)
 
-tile_array = [[0] * 100] * 100
+rows, cols = 100, 100
+tile_array = [[0 for i in range(cols)] for j in range(rows)]
 
 for x_parse in range(0, 20):
     for y_parse in range(0, 20):
