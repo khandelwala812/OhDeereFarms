@@ -32,16 +32,15 @@ def background(tile_array):
 
             screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
 
-
 PLAYER_SPRITE = 'assets\deer.png'
-class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, group):
-        super().__init__(group)
+class Player():
+    def __init__(self, pos):
         self.image = pygame.image.load(PLAYER_SPRITE)
         self.rect = self.image.get_rect(center=pos)
         self.pos_x = pos[0]
         self.pos_y = pos[1]
         self.speed = 10
+        screen.blit(self.image, (self.pos_x, self.pos_y))
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -59,8 +58,7 @@ class Player(pygame.sprite.Sprite):
             self.pos_x += self.speed
             self.getCords()
 
-    def update(self):
-        self.input()
+        screen.blit(self.image, (640, 350))
 
     def printCords(self):
         print(f"({self.pos_x}, {self.pos_y})")
@@ -81,7 +79,7 @@ class CameraGroup(pygame.sprite.Group):
             
 # Setup
 camera_group = CameraGroup()
-player = Player((650, 250), camera_group)
+player = Player((640,350))
 
 crop = Crop("corn", 0, 0, 0)
 
@@ -104,8 +102,7 @@ while running:
             running = False
 
     background(tile_array)
-    camera_group.update()
-    camera_group.draw(screen)
+    player.input()
     
 
 
