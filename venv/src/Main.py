@@ -31,6 +31,22 @@ def background(tile_array):
                 img = pygame.image.load('assets/grass/grass_1.png').convert()
             if(tile_array[i][j].condition == "tilled"):
                 img = pygame.image.load('assets/plot/tilled_plot.png').convert()
+            if(tile_array[i][j].condition == "pond"):
+                img = pygame.image.load('assets/grass/pond_1.png').convert()
+            if(tile_array[i][j].condition == "pond_2"):
+                img = pygame.image.load('assets/grass/pond_2.png').convert()
+            if(tile_array[i][j].condition == "pond_3"):
+                img = pygame.image.load('assets/grass/pond_3.png').convert()
+            if(tile_array[i][j].condition == "grass_1"):
+                img = pygame.image.load('assets/grass/grass_1.png').convert()
+            if(tile_array[i][j].condition == "grass_2"):
+                img = pygame.image.load('assets/grass/grass_2.png').convert()
+            if(tile_array[i][j].condition == "grass_3"):
+                img = pygame.image.load('assets/grass/grass_3.png').convert()
+            if(tile_array[i][j].condition == "grass_4"):
+                img = pygame.image.load('assets/grass/grass_4.png').convert()
+            if(tile_array[i][j].condition == "grass_5"):
+                img = pygame.image.load('assets/grass/grass_5.png').convert()
 
             screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
 
@@ -167,6 +183,7 @@ while running:
 
     background(tile_array)
     time = pygame.time.get_ticks() / 600
+    Menu.menuBtn()    
     player.input()
 
     pygame.display.flip()
