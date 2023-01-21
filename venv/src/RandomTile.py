@@ -1,6 +1,6 @@
 import random
 
-TYPES = ["pond", "pond_2", "pond_3", "grass_1", "grass_2", "grass_3", "grass_4", "grass_5"]
+TYPES = ["pond_1", "pond_2", "pond_3", "grass_1", "grass_2", "grass_3", "grass_4", "grass_5"]
 
 
 class RandomTile:
