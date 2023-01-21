@@ -89,7 +89,7 @@ tile_array = [[0] * 100] * 100
 
 for i in range(0, 100):
     for j in range(0, 100):
-        tile_array[i][j] = Tile(0, 0, crop)
+        tile_array[i][j] = Tile(crop)
 
 
 
