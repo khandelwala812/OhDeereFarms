@@ -1,35 +1,27 @@
-
 import time
 
 CONDITIONS = ["empty", "tilled", "seed", "seedling", "hapling", "harvest"]
 
 
 class Tile:
-    def __init__(self, x, y, crop):
-        self._pos = (x, y)
+    def __init__(self, crop=None):
         self._crop = crop
-        self._cropHarvests = {}
-        self._growthTime = crop.growthTime
+        self._lastCrop = None
+        self._sameCrop = 0
+
+        if crop is None:
+            self._growthTime = 0
+        else:
+            self._growthTime = crop.growthTime
+
         self._condition = 0
         self._fertilizerLevel = 0
         self._tillage = 0
         self._timeTilled = (0, 0)
 
     @property
-    def pos(self):
-        return self._pos
-
-    @pos.setter
-    def pos(self, pos):
-        self._pos = pos
-
-    @property
-    def cropHarvests(self):
-        return self._cropHarvests
-
-    @cropHarvests.setter
-    def cropHarvests(self, harvests):
-        self._cropHarvests = harvests
+    def sameCrop(self):
+        return self._sameCrop
 
     @property
     def growthTime(self):
@@ -50,10 +42,10 @@ class Tile:
 
         cropType = self._crop.type
         if (oldCondition == len(CONDITIONS) - 1 and condition == 0):
-            if (cropType in self._cropHarvests):
-                self._cropHarvests[cropType] += 1
+            if cropType == self._lastCrop:
+                self._sameCrop += 1
             else:
-                self._cropHarvests[cropType] = 1
+                self._sameCrop = 0
 
         if (condition == 1):
             now = int(round(time.time()))
