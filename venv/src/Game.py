@@ -1,5 +1,5 @@
 import numpy as np
-import random
+from HeatMap import heatmap
 
 class Game:
 
@@ -24,9 +24,9 @@ class Game:
         return self._tiles[pos].yields
 
     def generateWeather(self):
-        # rainy or sunny
-        randValue = random.uniform(0, 1)
+        # level type?
+        fertilizerVal = heatmap(self._tiles, "f")
+        tillageVal = heatmap(self._tiles, "t")
+        sameCropVal = heatmap(self._tiles, "s")
 
-        if (randValue > 0.1):
-            return "sunny"
-        return "rainy"
+        weatherVal = (fertilizerVal + tillageVal + sameCropVal) / 3

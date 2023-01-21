@@ -25,7 +25,7 @@ def heatmap5(levelType):
             i += 5
     return heatmap
 #returns average value based on input of f for fertilizer, t for tillage, s for same crop
-def heatmap(levelType):
+def heatmap(tiles, levelType):
     tileSum = 0
     #gives weights for color
     for i in tiles:
