@@ -1,5 +1,7 @@
 import pygame
 from tkinter import *
+from Tile import *
+from Crop import *
 
 
 pygame.init()
@@ -9,50 +11,60 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 700
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 running = True
 
-#############################-Load Map-######################################
-map_sprite = [[1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1]]
 #############################-Camera-######################################
+def background(tile_array):
+    x, y = player.getCords()
+    offsetX = len(tile_array) / 2
+    offsetY = len(tile_array[0]) / 2
+    offsetX *= 96
+    offsetY *= 96
+    offsetX += 640
+    offsetY += 350
+    tileX = (int) ((offsetX + x) / 96)
+    tileY = (int) ((offsetY + y) / 96)
+    for i in range(tileX-8, tileX+9):
+        for j in range(tileY-5, tileY+6):
+            img = None
+            if(tile_array[i][j].condition == "empty"):
+                img = pygame.image.load('venv/src/assets/grass/grass_1.png').convert()
+            if(tile_array[i][j].condition == "tilled"):
+                img = pygame.image.load('/venv/src/assets/plot/tilled_plot.png').convert()
+
+            screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
+
 PLAYER_SPRITE = 'assets\deer.png'
-class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, group):
-        super().__init__(group)
+class Player():
+    def __init__(self, pos):
         self.image = pygame.image.load(PLAYER_SPRITE)
         self.rect = self.image.get_rect(center=pos)
-        self.direction = pygame.math.Vector2()
+        self.pos_x = pos[0]
+        self.pos_y = pos[1]
         self.speed = 10
+        screen.blit(self.image, (self.pos_x, self.pos_y))
 
     def input(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w]:
-            self.direction.y = 1
-            self.getPos()
+            self.pos_y += self.speed
+            self.getCords()
         elif keys[pygame.K_s]:
-            self.direction.y = -1
-            self.getPos()
-        else:
-            self.direction.y = 0
-
-        if keys[pygame.K_d]:
-            self.direction.x = -1
-            self.getPos()
+            self.pos_y -= self.speed
+            self.getCords()
+        elif keys[pygame.K_d]:
+            self.pos_x -= self.speed
+            self.getCords()
         elif keys[pygame.K_a]:
-            self.direction.x = 1
-            self.getPos()
-        else:
-            self.direction.x = 0
+            self.pos_x += self.speed
+            self.getCords()
 
-    def update(self):
-        self.input()
-        self.rect.center += self.direction * self.speed
+        screen.blit(self.image, (640, 350))
 
-    def getPos(self):
-        print(f"x: {self.rect.centerx}")
-        print(f"y: {self.rect.centery}")
+    def printCords(self):
+        print(f"({self.pos_x}, {self.pos_y})")
+
+    def getCords(self):
+        return self.pos_x, self.pos_y
 
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -67,7 +79,18 @@ class CameraGroup(pygame.sprite.Group):
             
 # Setup
 camera_group = CameraGroup()
-Player((650, 250), camera_group)
+player = Player((640,350))
+
+crop = Crop("corn", 0, 0, 0)
+
+tile_array = [[0] * 100] * 100
+
+for i in range(0, 100):
+    for j in range(0, 100):
+        tile_array[i][j] = Tile(0, 0, crop)
+
+
+
 
 #############################-Game Loop-######################################
 while running:
@@ -75,12 +98,13 @@ while running:
 
 ####################### -Detecting Key Stroke-#############################################
     for event in pygame.event.get():
-        if event.type ==pygame.QUIT:
+        if event.type == pygame.QUIT:
             running = False
+
+    background(tile_array)
+    player.input()
     
-    screen.fill('black')
-    camera_group.update()
-    camera_group.draw(screen)
-    
+
+
     pygame.display.flip()
     clock.tick(60)
