@@ -11,12 +11,6 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 700
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 running = True
 
-#############################-Load Map-######################################
-map_sprite = [[1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1],
-              [1, 1, 1, 1, 1]]
 #############################-Camera-######################################
 def background(tile_array):
     x, y = player.getCords()
