@@ -14,41 +14,45 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 running = True
 
 #############################-Camera-######################################
-def background(tile_array):
+def background(tile_array1):
     x, y = player.getCords()
-    offsetX = len(tile_array) / 2
-    offsetY = len(tile_array[0]) / 2
+    offsetX = len(tile_array1) / 2
+    offsetY = len(tile_array1[0]) / 2
     offsetX *= 96
     offsetY *= 96
-    offsetX += 640
-    offsetY += 350
+    #offsetX += 640
+    #offsetY += 350
     tileX = (int) ((offsetX + x) / 96)
     tileY = (int) ((offsetY + y) / 96)
     for i in range(tileX-8, tileX+9):
-        for j in range(tileY-5, tileY+6):
+        for j in (range(tileY-5, tileY+6)):
             img = None
-            if(tile_array[i][j].condition == "empty"):
+            if(j == tileY):
+                continue
+            if(i == tileX):
+                continue
+            if(tile_array1[j][i].condition == "empty"):
                 img = pygame.image.load('assets/grass/grass_1.png').convert()
-            if(tile_array[i][j].condition == "tilled"):
+            elif(tile_array1[j][i].condition == "tilled"):
                 img = pygame.image.load('assets/plot/tilled_plot.png').convert()
-            if(tile_array[i][j].condition == "pond_1"):
+            elif(tile_array1[j][i].condition == "pond_1"):
                 img = pygame.image.load('assets/pond/pond_1.png').convert()
-            if(tile_array[i][j].condition == "pond_2"):
+            elif(tile_array1[j][i].condition == "pond_2"):
                 img = pygame.image.load('assets/pond/pond_2.png').convert()
-            if(tile_array[i][j].condition == "pond_3"):
+            elif(tile_array1[j][i].condition == "pond_3"):
                 img = pygame.image.load('assets/pond/pond_3.png').convert()
-            if(tile_array[i][j].condition == "grass_1"):
+            elif(tile_array1[j][i].condition == "grass_1"):
                 img = pygame.image.load('assets/grass/grass_1.png').convert()
-            if(tile_array[i][j].condition == "grass_2"):
+            elif(tile_array1[j][i].condition == "grass_2"):
                 img = pygame.image.load('assets/grass/grass_2.png').convert()
-            if(tile_array[i][j].condition == "grass_3"):
+            elif(tile_array1[j][i].condition == "grass_3"):
                 img = pygame.image.load('assets/grass/grass_3.png').convert()
-            if(tile_array[i][j].condition == "grass_4"):
+            elif(tile_array1[j][i].condition == "grass_4"):
                 img = pygame.image.load('assets/grass/grass_4.png').convert()
-            if(tile_array[i][j].condition == "grass_5"):
+            elif(tile_array1[j][i].condition == "grass_5"):
                 img = pygame.image.load('assets/grass/grass_5.png').convert()
 
-            screen.blit(img, ((((i-tileX)*96)+(x % 96) + 640), (((j-tileY)*96))+(y%96) + 350))
+            screen.blit(img, ((((i-tileX)*96)-(x % 96) + 640+ 15), (((j-tileY)*96))-(y%96) + 350+ 25))
 
 moving_up_images = ['assets/john/back/back_facing_1.png', 'assets/john/back/back_facing_2.png']
 class Player():
@@ -65,16 +69,16 @@ class Player():
         counter = int(time) % 2
         if keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
-            self.pos_y += self.speed
-            self.getCords()
-        elif keys[pygame.K_s]:
             self.pos_y -= self.speed
             self.getCords()
+        elif keys[pygame.K_s]:
+            self.pos_y += self.speed
+            self.getCords()
         elif keys[pygame.K_d]:
-            self.pos_x -= self.speed
+            self.pos_x += self.speed
             self.getCords()
         elif keys[pygame.K_a]:
-            self.pos_x += self.speed
+            self.pos_x -= self.speed
             self.getCords()
         elif keys[pygame.K_t]:
             x, y = player.getCords()
