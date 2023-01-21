@@ -181,9 +181,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    background(tile_array)
+    #background(tile_array)
     time = pygame.time.get_ticks() / 600
-    Menu.menuBtn()    
+    #Menu.menuBtn()    
     player.input()
 
     pygame.display.flip()
