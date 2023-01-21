@@ -50,10 +50,10 @@ class Tile:
             now = int(round(time.time()))
 
             if (self._timeTilled[0] == 0):
-                self._timeTilled = now
+                self._timeTilled = now, 0
             else:
                 prevTime = self._timeTilled[0]
-                self._timeTilled = (now, prevTime)
+                self._timeTilled = now, prevTime
         self._tillage += 1
 
     @property
