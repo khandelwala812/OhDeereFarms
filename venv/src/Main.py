@@ -2,18 +2,32 @@ import pygame, sys
 from tkinter import *
 
 pygame.init()
+clock = pygame.time.Clock()
 pygame.display.set_caption('John Deer Game')
-
-screen = pygame.display.set_mode((1270, 700))
-screen_x, screen_y = screen.get_size()
-
+SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 700
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 running = True
 
-def isGameRunning(event):
-    if event.type == pygame.QUIT:   
-        return False
-    return True
+#############################-Load Map-######################################
 
+#############################-Camera-######################################
+PLAYER_SPRITE = ''
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self, pos, group):
+        super().__init__(group)
+        self.image = pygame.image.load('')
+# Setup
+camera_group = pygame.sprite.Group()
+
+#############################-Game Loop-######################################
 while running:
+
+####################### -Detecting Key Stroke-#############################################
     for event in pygame.event.get():
-        running = isGameRunning(event)
+        if event.type ==pygame.QUIT:
+            running = False
+    
+    screen.fill((255,255,255))
+    pygame.display.flip()
+    clock.tick(60)
