@@ -106,6 +106,19 @@ class Player():
     def getCords(self):
         return self.pos_x, self.pos_y
 
+class Menu:
+    def __init__(self):
+        pass
+    def menuBtn(self):
+        #draws button in top corner
+        pygame.draw.rect(screen, color(200, 200, 200), pygame.Rect(SCREEN_WIDTH-100, 20, 80, 40))
+        largeText =pygame.font.Font("assets/Fonts/Daydream.ttf", 35)
+        TextPause = text_objects("Paused", largeText)
+        TextPause.center = ((SCREEN_WIDTH-50),(40))
+        gameDisplay.blit(TextPause)
+    def menuScreen(self):
+        #draws fullscreen menu
+
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
             super().__init__()
