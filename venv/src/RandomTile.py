@@ -8,5 +8,5 @@ class RandomTile:
         self._condition = random.randint(0, 7)
 
     @property
-    def type(self):
+    def condition(self):
         return CONDITIONS[self._condition]
