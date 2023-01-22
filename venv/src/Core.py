@@ -460,7 +460,7 @@ class Player(pygame.sprite.Sprite):
         self.seedIndexMax = 0
         self.toggle = True
 
-        self.wcurrency = 100
+        self.wcurrency = 300
         self.ccurrency = 100
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
@@ -581,7 +581,7 @@ class Player(pygame.sprite.Sprite):
             ):
                 sound4 = pygame.mixer.Sound("assets/music/plant.wav")
                 pygame.mixer.find_channel(True).play(sound4)
-                tileOn.crop = Crop(self.seeds[self.seedIndex], 10*(self.seedIndex+1), 10*(self.seedIndex+1), 10*(self.seedIndex+1))
+                tileOn.crop = Crop(self.seeds[self.seedIndex], 10*(self.seedIndex+1), 15*(self.seedIndex+1), 10*(self.seedIndex+1))
                 self.decreaseW(10*(self.seedIndex+1))
                 tileOn.setCondition(2)
                 back_ground.updateTile()
@@ -681,7 +681,7 @@ class Rain:
         self.bgimage = pygame.image.load("assets/rain.png")
         self.rectBGimg = self.bgimage.get_rect()
         self.raining = False
-        self.randWait = 45
+        self.randWait = 25
         self.lastRain = time.time()
         self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self.bgimage = pygame.transform.scale(self.bgimage, self.DEFAULT_IMAGE_SIZE)
@@ -869,8 +869,6 @@ while running:
         pygame.display.update()
         FramePerSec.tick(FPS)
         continue
-    print(startTime)
-    print(time.time())
     back_ground.update()
     back_ground.render()
 
@@ -891,7 +889,7 @@ while running:
     elif time.time() - rain.lastRain > rain.randWait + 5:
         rain.raining = False
         rain.lastRain = time.time()
-        rain.randWait = random.randint(45, 180)
+        rain.randWait = random.randint(20, 80)
 
     SCREEN.blit(john.log, john.hud_rect)
 
