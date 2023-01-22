@@ -442,7 +442,7 @@ class Rain:
         self.bgimage = pygame.image.load('assets/rain.png')
         self.rectBGimg = self.bgimage.get_rect()
         self.raining = False
-        self.randWait = 45
+        self.randWait = 2
         self.lastRain = time.time()
         self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self.bgimage = pygame.transform.scale(self.bgimage, self.DEFAULT_IMAGE_SIZE)
@@ -586,6 +586,14 @@ while running:
     john.waterAmount = john.font.render(str(john.wcurrency), True, (0, 191, 255))
 
     SCREEN.blit(john.image, john.rect)
+    if rain.raining:
+        rain.render()
+    if time.time() - rain.lastRain > rain.randWait and time.time() - rain.lastRain < rain.randWait+5:
+        rain.raining = True
+    elif time.time() - rain.lastRain > rain.randWait+5:
+        rain.raining = False
+        rain.lastRain = time.time()
+        rain.randWait = random.randint(45, 180)
     SCREEN.blit(john.log, john.hud_rect)
 
     SCREEN.blit(john.wText, (70, 540))
@@ -625,14 +633,7 @@ while running:
     elif pressed_keys[pygame.K_b]:
         showHeatMap(tile_array, "s")
 
-    if rain.raining:
-        rain.render()
-    if time.time() - rain.lastRain > rain.randWait and time.time() - rain.lastRain < rain.randWait+5:
-        rain.raining = True
-    elif time.time() - rain.lastRain > rain.randWait+5:
-        rain.raining = False
-        rain.lastRain = time.time()
-        rain.randWait = random.randint(45, 180)
+
 
 
     pygame.display.update()
