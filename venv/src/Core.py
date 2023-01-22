@@ -2,12 +2,16 @@ import sys
 from random import random
 
 import pygame
+from pygame import mixer
 from tkinter import *
 from Tile import *
 from Crop import *
 from RandomTile import *
 
 pygame.init()
+mixer.init()
+mixer.music.load("assets/out-on-the-farm-110607.mp3")
+mixer.music.set_volume(1)
 
 FPS = 80
 FramePerSec = pygame.time.Clock()
@@ -331,6 +335,7 @@ class startScreenCls:
         SCREEN.blit(self.img1, (0,0))
 
 strt = startScreenCls()
+mixer.music.play()
 while running:
     strt.startScreenCall()
     for event in pygame.event.get():
