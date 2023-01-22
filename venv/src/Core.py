@@ -359,7 +359,7 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_l]: #harvest
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
-                sound3 = pygame.mixer.Sound("assets/whoosh.wav")
+                sound3 = pygame.mixer.Sound("assets/harvest.wav")
                 pygame.mixer.find_channel(True).play(sound3)
                 tileOn.setCondition(0)
                 tileOn.crop = None
