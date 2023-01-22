@@ -461,7 +461,7 @@ class Player(pygame.sprite.Sprite):
         self.toggle = True
 
         self.wcurrency = 100
-        self.ccurrency = 100
+        self.ccurrency = 50
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
         self.rect = self.surf.get_rect(center=(655, 265))
@@ -494,7 +494,7 @@ class Player(pygame.sprite.Sprite):
         self.upgradeText = self.font.render("(P) Next Upgrade", True, (255, 114, 118))
         self.upgradeIcon = pygame.image.load("assets/plants/icons/radish.png")
         self.upgradeRect = self.upgradeText.get_rect(center=(1305, 615))
-        self.upgradeCost = self.font.render("$15", True, (255, 160, 122))
+        self.upgradeCost = self.font.render("$25", True, (255, 160, 122))
 
         self.coinText = self.font.render("Coins:", True, (255, 165, 0))
         self.coinAmount = self.font.render(str(self.ccurrency), True, (255, 255, 102))
@@ -627,29 +627,29 @@ class Player(pygame.sprite.Sprite):
                 pygame.mixer.find_channel(True).play(sound2)
         elif pressed_keys[pygame.K_p]:  # upgrade
             if self.toggle:
-                if self.seedIndexMax < 1 and self.ccurrency >= 15:
-                    self.decreaseC(15)
+                if self.seedIndexMax < 1 and self.ccurrency >= 25:
+                    self.decreaseC(25)
                     self.seedIndexMax = 1
                     self.upgradeIcon = pygame.image.load(
                         "assets/plants/icons/cantaloupe.png"
                     )
-                    self.upgradeCost = self.font.render("$30", True, (255, 160, 122))
-                elif self.seedIndexMax < 2 and self.ccurrency >= 30:
-                    self.decreaseC(30)
+                    self.upgradeCost = self.font.render("$40", True, (255, 160, 122))
+                elif self.seedIndexMax < 2 and self.ccurrency >= 40:
+                    self.decreaseC(40)
                     self.seedIndexMax = 2
                     self.upgradeIcon = pygame.image.load(
                         "assets/plants/icons/melon.png"
                     )
-                    self.upgradeCost = self.font.render("$50", True, (255, 160, 122))
-                elif self.seedIndexMax < 3 and self.ccurrency >= 50:
-                    self.decreaseC(50)
+                    self.upgradeCost = self.font.render("$65", True, (255, 160, 122))
+                elif self.seedIndexMax < 3 and self.ccurrency >= 65:
+                    self.decreaseC(65)
                     self.seedIndexMax = 3
                     self.upgradeIcon = pygame.image.load(
                         "assets/plants/icons/grape.png"
                     )
-                    self.upgradeCost = self.font.render("$80", True, (255, 160, 122))
-                elif self.seedIndexMax < 4 and self.ccurrency >= 80:
-                    self.decreaseC(80)
+                    self.upgradeCost = self.font.render("$90", True, (255, 160, 122))
+                elif self.seedIndexMax < 4 and self.ccurrency >= 90:
+                    self.decreaseC(90)
                     self.seedIndexMax = 4
                     self.upgradeIcon = pygame.image.load("assets/plants/icons/x.png")
                     self.upgradeCost = self.font.render("MAX", True, (255, 160, 122))
