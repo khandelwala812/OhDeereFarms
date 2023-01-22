@@ -2,12 +2,17 @@ import sys
 from random import random
 
 import pygame
+from pygame import mixer
 from tkinter import *
 from Tile import *
 from Crop import *
 from RandomTile import *
 
 pygame.init()
+mixer.init()
+musicPlaylist = ["assets/out-on-the-farm-110607.mp3", "assets/merry-farm.mp3", "assets/country-fun.mp3"]
+mixer.music.load(musicPlaylist[0])
+mixer.music.set_volume(1)
 
 FPS = 80
 FramePerSec = pygame.time.Clock()
@@ -128,6 +133,22 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -177,6 +198,22 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -214,6 +251,14 @@ class Player(pygame.sprite.Sprite):
         self.aText = self.font.render('A', True, (144, 200, 144))
         self.sText = self.font.render('S', True, (144, 200, 144))
         self.dText = self.font.render('D', True, (144, 200, 144))
+
+        self.cropText = self.font.render('Crop Selected', True, (173, 216, 230))
+        self.cropIcon = pygame.image.load('assets/plants/icons/melon.png')
+        self.cropRect = self.cropIcon.get_rect(center = (1140, 565))
+
+        self.upgradeText = self.font.render('Next Upgrade', True, (255, 114, 118))
+        self.upgradeIcon = pygame.image.load('assets/plants/icons/grape.png')
+        self.upgradeRect = self.upgradeText.get_rect(center = (1275, 615))
 
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
@@ -331,6 +376,8 @@ class startScreenCls:
         SCREEN.blit(self.img1, (0,0))
 
 strt = startScreenCls()
+mixer.music.play()
+musicIndex = 0
 while running:
     strt.startScreenCall()
     for event in pygame.event.get():
@@ -340,8 +387,17 @@ while running:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             strt.start = False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             Paused()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+            if musicIndex == 0 or musicIndex == 1:
+                musicIndex += 1
+                mixer.music.load(musicPlaylist[musicIndex])
+                mixer.music.play()
+            else:
+                musicIndex = 0
+                mixer.music.load(musicPlaylist[musicIndex])
+                mixer.music.play()
 
     if strt.start:
         strt.startScreenCall()
@@ -366,6 +422,10 @@ while running:
     SCREEN.blit(john.aText, (265, 620))
     SCREEN.blit(john.sText, (295, 620))
     SCREEN.blit(john.dText, (325, 620))
+    SCREEN.blit(john.cropText, (810,550))
+    SCREEN.blit(john.cropIcon, john.cropRect)
+    SCREEN.blit(john.upgradeText, (810,600))
+    SCREEN.blit(john.upgradeIcon, john.upgradeRect)
 
     growStuff()
     timeAni = pygame.time.get_ticks() / 200
