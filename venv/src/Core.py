@@ -620,6 +620,7 @@ class Player(pygame.sprite.Sprite):
 
                 tileOn.lastFertilizeTime = time.time()
                 self.decreaseC(1)
+                self.decreaseW(5)
                 self.image = pygame.image.load(action_images[counter])
                 # add visual effect
             elif isinstance(tileOn, RandomTile):
