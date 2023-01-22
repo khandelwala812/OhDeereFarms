@@ -18,13 +18,15 @@ def background(tile_array1):
     offsetY = len(tile_array1[0]) / 2
     offsetX *= 96
     offsetY *= 96
-    #offsetX += 640
-    #offsetY += 350
     tileX = (int) ((offsetX + x) / 96)
     tileY = (int) ((offsetY + y) / 96)
     for i in range(tileX-8, tileX+9):
         for j in (range(tileY-5, tileY+6)):
             img = None
+            # if(i == tileX):
+            #     continue
+            # if(j == tileY):
+            #     continue
             if(tile_array1[j][i].condition == "empty"):
                 img = pygame.image.load('assets/plot/untilled_plot.png').convert()
             elif(tile_array1[j][i].condition == "tilled"):
@@ -75,26 +77,28 @@ class Player():
             self.pos_x -= self.speed
             self.getCords()
         elif keys[pygame.K_t]:
-            x, y = player.getCords()
+
+            x, y = self.getCords()
+
             offsetX = len(tile_array) / 2
             offsetY = len(tile_array[0]) / 2
             offsetX *= 96
             offsetY *= 96
-            offsetX += 640
-            offsetY += 350
             tileX = (int) ((offsetX + x) / 96)
             tileY = (int) ((offsetY + y) / 96)
-            if tile_array is Tile and tile_array[tileX][tileY].condition == "empty":
-                tile_array[tileX][tileY].condition += 1
-                Player.till()
+            #((((i-tileX)*96)-(x % 96) + 640+ 15), (((j-tileY)*96))-(y%96) + 350+ 25)
+
+            if tile_array[tileX][tileY].condition == "empty":
+                tile_array[tileY][tileX].condition = 1
+                print(tile_array[tileY][tileX].condition)
+                #self.till()
         elif keys[pygame.K_p]:
             x, y = player.getCords()
             offsetX = len(tile_array) / 2
             offsetY = len(tile_array[0]) / 2
             offsetX *= 96
             offsetY *= 96
-            offsetX += 640
-            offsetY += 350
+
             tileX = (int) ((offsetX + x) / 96)
             tileY = (int) ((offsetY + y) / 96)
             if tile_array is Tile and tile_array[tileX][tileY].condition == "tilled":
@@ -106,8 +110,6 @@ class Player():
             offsetY = len(tile_array[0]) / 2
             offsetX *= 96
             offsetY *= 96
-            offsetX += 640
-            offsetY += 350
             tileX = (int) ((offsetX + x) / 96)
             tileY = (int) ((offsetY + y) / 96)
             if tile_array is Tile and tile_array[tileX][tileY].condition == "harvest":
