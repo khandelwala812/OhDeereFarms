@@ -4,9 +4,9 @@ plantWheat = false;
 plantBeans = false;
 
 #returns 1 if successful buy, 0 if not
-#                 corn(10)
-#        (15)beans - | - wheat(15)
-#
+#                 melon(10)
+#        (15)radish - | - pepper(15)
+#             |             |
 #
 #
 
