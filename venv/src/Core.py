@@ -84,13 +84,17 @@ class Background():
     def update(self):
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_w]:
-            self.bgY += 5
+            if not self.bgY+5 > 0:
+                self.bgY += 5
         if pressed_keys[pygame.K_s]:
-            self.bgY -= 5
+            if not self.bgY-5 < -8300:
+                self.bgY -= 5
         if pressed_keys[pygame.K_a]:
-            self.bgX += 5
+            if not self.bgX+5 > 0:
+                self.bgX += 5
         if pressed_keys[pygame.K_d]:
-            self.bgX -= 5
+            if not self.bgX-5 < -8300:
+                self.bgX -= 5
 
     def render(self):
         SCREEN.blit(self.surface, (self.bgX, self.bgY))
@@ -134,14 +138,14 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
-        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantaloupe"):
+            img = pygame.image.load('assets/plants/cantaloupe_1.png').convert()
         if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+            img = pygame.image.load('assets/plants/cantaloupe_2.png').convert()
         if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
-        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+            img = pygame.image.load('assets/plants/cantaloupe_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantaloupe"):
+            img = pygame.image.load('assets/plants/cantaloupe_4.png').convert()
         if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
             img = pygame.image.load('assets/plants/grape_1.png').convert()
         if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
@@ -199,14 +203,14 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
-        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantaloupe"):
+            img = pygame.image.load('assets/plants/cantaloupe_1.png').convert()
         if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+            img = pygame.image.load('assets/plants/cantaloupe_2.png').convert()
         if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
-        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
-            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+            img = pygame.image.load('assets/plants/cantaloupe_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantaloupe"):
+            img = pygame.image.load('assets/plants/cantaloupe_4.png').convert()
         if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
             img = pygame.image.load('assets/plants/grape_1.png').convert()
         if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
@@ -237,9 +241,9 @@ class Background():
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.seeds = ["melon", "radish", "pepper"]
+        self.seeds = ["pepper", "radish", "cantaloupe", "melon", "grape"]
         self.seedIndex = 0
-        self.seedIndexMax = 3
+        self.seedIndexMax = 0
         self.toggle = True
         self.wcurrency = 100
         self.ccurrency = 100
@@ -306,16 +310,24 @@ class Player(pygame.sprite.Sprite):
             if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
                 tileOn.setCondition(0)
                 tileOn.crop = None
-                #get money
+                self.ccurrency += 10
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_f]:
             tileOn = back_ground.getTile()
-            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling"):
-                tileOn.fertilizerLevel += .02
+            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling") and tileOn.crop.growthTime > 1:
+                tileOn.addFertilizer(.02)
 
-                lastFertilizeTime = time.time()
-                #use money
+                tileOn.lastFertilizeTime = time.time()
+
+                self.ccurrency -= 1
                 #add visual effect
+        elif pressed_keys[pygame.K_u]:
+            if self.seedIndexMax < 1 and self.ccurrency > 10:
+                self.ccurrency -= 10
+                self.seedIndexMax = 1
+            elif self.seedIndexMax < 2 and self.ccurrency > 20:
+                self.ccurrency -= 20
+                self.seedIndexMax = 2
         elif pressed_keys[pygame.K_1]:
             if self.toggle:
                 if self.seedIndex != self.seedIndexMax:
@@ -378,7 +390,6 @@ def growStuff():
     for i in range(0, 100):
         for j in range(0, 100):
             timeVar = time.time()
-
             if isinstance(tile_array[i][j], Tile) and (tile_array[i][j].crop != None) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime):
                 tile_array[i][j].growTile()
                 #take money
