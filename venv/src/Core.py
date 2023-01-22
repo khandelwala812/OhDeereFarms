@@ -316,16 +316,42 @@ def growStuff():
                 #take money
                 tile_array[i][j].growthTime = timeVar
                 back_ground.updateTileGrow(i, j)
+class startScreenCls:
+    def __init__(self):
+        self.start = True
+        self.img1 = pygame.image.load('assets/background.png').convert()
+        self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.img1 = pygame.transform.scale(self.img1, self.DEFAULT_IMAGE_SIZE)
 
+        self.font = pygame.font.Font('assets/Daydream.ttf', 60)
+        self.titleText = self.font.render('Oh Deere Farms', True, (0, 200, 0))
+        self.font = pygame.font.Font('assets/Daydream.ttf', 40)
+        self.descriptionText = self.font.render('Push Any Key to Start', True, (0, 0, 0))
+    def startScreenCall(self):
+        SCREEN.blit(self.img1, (0,0))
+
+strt = startScreenCls()
 while running:
+    strt.startScreenCall()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            strt.start = False
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             Paused()
 
+    if strt.start:
+        strt.startScreenCall()
+
+        SCREEN.blit(strt.titleText, (SCREEN_WIDTH/2-300, SCREEN_HEIGHT/2-175))
+        SCREEN.blit(strt.descriptionText, (SCREEN_WIDTH/2-400, SCREEN_HEIGHT/2+125))
+        pressed_keys = pygame.key.get_pressed()
+        pygame.display.update()
+        FramePerSec.tick(FPS)
+        continue
 
     back_ground.update()
     back_ground.render()
