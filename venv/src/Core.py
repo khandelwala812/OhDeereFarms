@@ -686,7 +686,7 @@ class Rain:
         self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self.bgimage = pygame.transform.scale(self.bgimage, self.DEFAULT_IMAGE_SIZE)
     def generateWeather(self, tiles):
-        isRaining = 1#random.uniform(0, 1) < 0.1
+        isRaining = 1 # random.uniform(0, 1) < 0.1
 
         while isRaining:
             SCREEN.blit(self.bgimage)
@@ -881,6 +881,8 @@ while running:
 
     if rain.raining:
         rain.render()
+    if not rain.raining and time.time() - rain.lastRain > rain.randWait:
+        john.increaseW(100)
     if (
             time.time() - rain.lastRain > rain.randWait
             and time.time() - rain.lastRain < rain.randWait + 5
