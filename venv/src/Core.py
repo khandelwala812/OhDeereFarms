@@ -263,19 +263,24 @@ class Player(pygame.sprite.Sprite):
         self.hud_rect = self.hud.get_rect(center = (640, 600))
 
         self.font = pygame.font.Font('assets/Daydream.ttf', 24)
-        self.moveText = self.font.render('Movement', True, (0, 200, 0))
+
         self.wText = self.font.render('W', True, (144, 200, 144))
         self.aText = self.font.render('A', True, (144, 200, 144))
         self.sText = self.font.render('S', True, (144, 200, 144))
         self.dText = self.font.render('D', True, (144, 200, 144))
 
-        self.cropText = self.font.render('Crop Selected', True, (173, 216, 230))
-        self.cropIcon = pygame.image.load('assets/plants/icons/pepper.png')
-        self.cropRect = self.cropIcon.get_rect(center = (1140, 565))
+        self.tillText = self.font.render('(J) Till', True, (233, 116, 80))
+        self.plantText = self.font.render('(K) Plant', True, (152, 251, 152))
+        self.harvestText = self.font.render('(L) Harvest', True, (221, 160, 221))
+        self.fertilizeText = self.font.render('(I) Fertilize', True, (255, 215, 0))
 
-        self.upgradeText = self.font.render('Next Upgrade', True, (255, 114, 118))
+        self.cropText = self.font.render('(O) Crop Selected', True, (173, 216, 230))
+        self.cropIcon = pygame.image.load('assets/plants/icons/pepper.png')
+        self.cropRect = self.cropIcon.get_rect(center = (1142, 565))
+
+        self.upgradeText = self.font.render('(P) Next Upgrade', True, (255, 114, 118))
         self.upgradeIcon = pygame.image.load('assets/plants/icons/radish.png')
-        self.upgradeRect = self.upgradeText.get_rect(center = (1275, 615))
+        self.upgradeRect = self.upgradeText.get_rect(center = (1305, 615))
         self.upgradeCost = self.font.render('$10', True, (255, 160, 122))
 
         self.coinText = self.font.render('Coins:', True, (255, 165, 0))
@@ -312,6 +317,7 @@ class Player(pygame.sprite.Sprite):
         moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
         moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
         idle_front_images = ['assets/john/front/front_facing_1.png', 'assets/john/front/front_facing_2.png']
+        action_images = ['assets/john/action_1.png', 'assets/john/action_2.png']
         counter = int(timeAni) % 2
         if pressed_keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
@@ -325,35 +331,37 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_a]:
             self.image = pygame.image.load(moving_left_images[counter])
             self.aText = self.font.render('A', True, (144, 180, 216))
-        elif pressed_keys[pygame.K_t]:
+        elif pressed_keys[pygame.K_j]: #till
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "empty":
                 tileOn.setCondition(1)
                 back_ground.updateTile()
-        elif pressed_keys[pygame.K_p]:
+                self.image = pygame.image.load(action_images[counter])
+        elif pressed_keys[pygame.K_k]: #plant
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None and self.wcurrency >= 10:
                 tileOn.crop = Crop(self.seeds[self.seedIndex], 10, 10, 10)
                 self.wcurrency -= 10
                 tileOn.setCondition(2)
                 back_ground.updateTile()
-        elif pressed_keys[pygame.K_h]:
+                self.image = pygame.image.load(action_images[counter])
+        elif pressed_keys[pygame.K_l]: #harvest
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
                 tileOn.setCondition(0)
                 tileOn.crop = None
                 self.ccurrency += 10
                 back_ground.updateTile()
-        elif pressed_keys[pygame.K_f]:
+                self.image = pygame.image.load(action_images[counter])
+        elif pressed_keys[pygame.K_i]: #fertilize
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling") and tileOn.crop.growthTime > 1:
                 tileOn.addFertilizer(.02)
-
                 tileOn.lastFertilizeTime = time.time()
-
                 self.ccurrency -= 1
+                self.image = pygame.image.load(action_images[counter])
                 #add visual effect
-        elif pressed_keys[pygame.K_u]:
+        elif pressed_keys[pygame.K_p]: #upgrade
             if self.toggle:
                 if self.seedIndexMax < 1 and self.ccurrency >= 10:
                     self.ccurrency -= 10
@@ -376,7 +384,7 @@ class Player(pygame.sprite.Sprite):
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/x.png')
                     self.upgradeCost = self.font.render('MAX', True, (255, 160, 122))
                 self.toggle = False
-        elif pressed_keys[pygame.K_1]:
+        elif pressed_keys[pygame.K_o]: #cycle
             if self.toggle:
                 if self.seedIndex != self.seedIndexMax:
                     self.seedIndex += 1
@@ -551,21 +559,29 @@ while running:
 
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)
-    SCREEN.blit(john.moveText, (200,555))
-    SCREEN.blit(john.wText, (295, 590))
-    SCREEN.blit(john.aText, (265, 620))
-    SCREEN.blit(john.sText, (295, 620))
-    SCREEN.blit(john.dText, (325, 620))
-    SCREEN.blit(john.cropText, (810,550))
+
+    SCREEN.blit(john.wText, (80, 575))
+    SCREEN.blit(john.aText, (50, 605))
+    SCREEN.blit(john.sText, (80, 605))
+    SCREEN.blit(john.dText, (110, 605))
+
+    SCREEN.blit(john.tillText, (170, 525))
+    SCREEN.blit(john.plantText, (185, 560))
+    SCREEN.blit(john.harvestText, (200, 595))
+    SCREEN.blit(john.fertilizeText, (210, 630))
+
+    SCREEN.blit(john.cropText, (755,550))
     SCREEN.blit(john.cropIcon, john.cropRect)
-    SCREEN.blit(john.upgradeText, (810,600))
+
+    SCREEN.blit(john.upgradeText, (760,600))
     SCREEN.blit(john.upgradeIcon, john.upgradeRect)
     SCREEN.blit(john.upgradeCost, (1170,600))
+
     SCREEN.blit(john.coinText, (500, 550))
     SCREEN.blit(john.coinAmount, (640, 550))
+
     SCREEN.blit(john.waterText, (490,600))
     SCREEN.blit(john.waterAmount, (640,600))
-
     growStuff()
     timeAni = pygame.time.get_ticks() / 200
     pressed_keys = pygame.key.get_pressed()
