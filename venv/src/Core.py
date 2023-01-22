@@ -30,6 +30,19 @@ for x_parse in range(0, 20):
                 else:
                     tile_array[x_val][y_val] = RandomTile()
 
+def Paused():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+                print("False")
+            elif event.type == pygame.QUIT:
+                paused = False
+                running = False
+                pygame.quit()
+                sys.exit()
+
 class Background():
     def __init__(self):
         self.surface = pygame.Surface((9600,9600))
@@ -164,6 +177,9 @@ while running:
             running = False
             pygame.quit()
             sys.exit()
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            Paused()
+            
 
     back_ground.update()
     back_ground.render()
