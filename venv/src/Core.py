@@ -269,6 +269,13 @@ class Player(pygame.sprite.Sprite):
         self.upgradeText = self.font.render('Next Upgrade', True, (255, 114, 118))
         self.upgradeIcon = pygame.image.load('assets/plants/icons/radish.png')
         self.upgradeRect = self.upgradeText.get_rect(center = (1275, 615))
+        self.upgradeCost = self.font.render('$10', True, (255, 160, 122))
+
+        self.coinText = self.font.render('Coins:', True, (255, 165, 0))
+        self.coinAmount = self.font.render(str(self.ccurrency), True, (255, 255, 102))
+
+        self.waterText = self.font.render('Water:', True, (65, 105, 225))
+        self.waterAmount = self.font.render(str(self.wcurrency), True, (0, 191, 255))
 
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
@@ -327,18 +334,22 @@ class Player(pygame.sprite.Sprite):
                     self.ccurrency -= 10
                     self.seedIndexMax = 1
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/cantaloupe.png')
+                    self.upgradeCost = self.font.render('$20', True, (255, 160, 122))
                 elif self.seedIndexMax < 2 and self.ccurrency >= 20:
                     self.ccurrency -= 20
                     self.seedIndexMax = 2
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/melon.png')
+                    self.upgradeCost = self.font.render('$30', True, (255, 160, 122))
                 elif self.seedIndexMax < 3 and self.ccurrency >= 30:
                     self.ccurrency -= 30
                     self.seedIndexMax = 3
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/grape.png')
+                    self.upgradeCost = self.font.render('$40', True, (255, 160, 122))
                 elif self.seedIndexMax < 4 and self.ccurrency >= 40:
                     self.ccurrency -= 40
                     self.seedIndexMax = 4
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/x.png')
+                    self.upgradeCost = self.font.render('MAX', True, (255, 160, 122))
                 self.toggle = False
         elif pressed_keys[pygame.K_1]:
             if self.toggle:
@@ -467,6 +478,9 @@ while running:
     #rain.update()
     #rain.render()
 
+    john.coinAmount = john.font.render(str(john.ccurrency), True, (255, 255, 102))
+    john.waterAmount = john.font.render(str(john.wcurrency), True, (0, 191, 255))
+
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)
     SCREEN.blit(john.moveText, (200,555))
@@ -478,6 +492,11 @@ while running:
     SCREEN.blit(john.cropIcon, john.cropRect)
     SCREEN.blit(john.upgradeText, (810,600))
     SCREEN.blit(john.upgradeIcon, john.upgradeRect)
+    SCREEN.blit(john.upgradeCost, (1170,600))
+    SCREEN.blit(john.coinText, (500, 550))
+    SCREEN.blit(john.coinAmount, (640, 550))
+    SCREEN.blit(john.waterText, (490,600))
+    SCREEN.blit(john.waterAmount, (640,600))
 
     growStuff()
     timeAni = pygame.time.get_ticks() / 200
