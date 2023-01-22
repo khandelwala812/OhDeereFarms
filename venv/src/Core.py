@@ -3,15 +3,18 @@ from random import random
 
 import pygame
 from pygame.locals import Color
-
-from tkinter import *
+from pygame import mixer
 from Tile import *
 from Crop import *
 from RandomTile import *
 from HeatMap import heatmap5
 
 pygame.init()
-
+mixer.init()
+musicPlaylist = ["assets/out-on-the-farm-110607.mp3", "assets/merry-farm.mp3", "assets/country-fun.mp3"]
+mixer.music.load(musicPlaylist[0])
+mixer.music.set_volume(1)
+coins = 100
 FPS = 80
 FramePerSec = pygame.time.Clock()
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 660
@@ -32,6 +35,18 @@ for x_parse in range(0, 20):
                     tile_array[x_val][y_val] = Tile()
                 else:
                     tile_array[x_val][y_val] = RandomTile()
+
+def Paused():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+            elif event.type == pygame.QUIT:
+                paused = False
+                running = False
+                pygame.quit()
+                sys.exit()
 
 class Background():
     def __init__(self):
@@ -83,11 +98,9 @@ class Background():
     def getCords(self):
         return self.bgX + 640 - 1280, self.bgY - 360
 
-    def getTileIndices(self):
-        return int((self.bgX + 625 - 1280) / -96), int((self.bgY - 275) / -96)
-
     def getTile(self):
-        a1, a2 = self.__getTileIndices()
+        a1 = (self.bgX+625-1280)/-96
+        a2 = (self.bgY-275)/-96
         return tile_array[int(a1)][int(a2)]
 
     def updateTile(self):
@@ -99,6 +112,109 @@ class Background():
             img = pygame.image.load('assets/plot/tilled_plot.png').convert()
         if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "melon"):
             img = pygame.image.load('assets/plants/melon_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_4.png').convert()
+        if(tile_array[a1][a2].condition == "pond_1"):
+            img = pygame.image.load('assets/pond/pond_1.png').convert()
+        if(tile_array[a1][a2].condition == "pond_2"):
+            img = pygame.image.load('assets/pond/pond_2.png').convert()
+        if(tile_array[a1][a2].condition == "pond_3"):
+            img = pygame.image.load('assets/pond/pond_3.png').convert()
+        if(tile_array[a1][a2].condition == "grass_1"):
+            img = pygame.image.load('assets/grass/grass_1.png').convert()
+        if(tile_array[a1][a2].condition == "grass_2"):
+            img = pygame.image.load('assets/grass/grass_2.png').convert()
+        if(tile_array[a1][a2].condition == "grass_3"):
+            img = pygame.image.load('assets/grass/grass_3.png').convert()
+        if(tile_array[a1][a2].condition == "grass_4"):
+            img = pygame.image.load('assets/grass/grass_4.png').convert()
+        if(tile_array[a1][a2].condition == "grass_5"):
+            img = pygame.image.load('assets/grass/grass_5.png').convert()
+
+        self.surface.blit(img, (int(a1)*96, int(a2)*96))
+    def updateTileGrow(self, x, y):
+        a1 = x
+        a2 = y
+        if(tile_array[a1][a2].condition == "empty"):
+            img = pygame.image.load('assets/plot/untilled_plot.png').convert()
+        if(tile_array[a1][a2].condition == "tilled" and tile_array[a1][a2].crop == None):
+            img = pygame.image.load('assets/plot/tilled_plot.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -118,43 +234,123 @@ class Background():
 
         self.surface.blit(img, (int(a1)*96, int(a2)*96))
 
-
-moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
-moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
-moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
-moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.seeds = ["melon", "radish", "pepper"]
+        self.seedIndex = 0
+        self.seedIndexMax = 3
+        self.toggle = True
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
         self.rect = self.surf.get_rect(center=(655, 265))
 
+        self.log = pygame.image.load("assets/log.png")
+        self.hud = pygame.Surface((1280,500))
+        self.hud_rect = self.hud.get_rect(center = (640, 600))
+
+        self.font = pygame.font.Font('assets/Daydream.ttf', 24)
+        self.moveText = self.font.render('Movement', True, (0, 200, 0))
+        self.wText = self.font.render('W', True, (144, 200, 144))
+        self.aText = self.font.render('A', True, (144, 200, 144))
+        self.sText = self.font.render('S', True, (144, 200, 144))
+        self.dText = self.font.render('D', True, (144, 200, 144))
+
+        self.cropText = self.font.render('Crop Selected', True, (173, 216, 230))
+        self.cropIcon = pygame.image.load('assets/plants/icons/melon.png')
+        self.cropRect = self.cropIcon.get_rect(center = (1140, 565))
+
+        self.upgradeText = self.font.render('Next Upgrade', True, (255, 114, 118))
+        self.upgradeIcon = pygame.image.load('assets/plants/icons/grape.png')
+        self.upgradeRect = self.upgradeText.get_rect(center = (1275, 615))
+
+        #self.hud = pygame.Surface((1280,120))
+        #self.hud_rect = self.hud.get_rect(center = (640, 600))
+        #self.hud.fill((0,255,255))
+
     def move(self, pressed_keys):
-        counter = int(time) % 2
+        moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
+        moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
+        moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
+        moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
+        idle_front_images = ['assets/john/front/front_facing_1.png', 'assets/john/front/front_facing_2.png']
+        counter = int(timeAni) % 2
         if pressed_keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
+            self.wText = self.font.render('W', True, (144, 180, 216))
         elif pressed_keys[pygame.K_s]:
             self.image = pygame.image.load(moving_down_images[counter])
+            self.sText = self.font.render('S', True, (144, 180, 216))
         elif pressed_keys[pygame.K_d]:
             self.image = pygame.image.load(moving_right_images[counter])
+            self.dText = self.font.render('D', True, (144, 180, 216))
         elif pressed_keys[pygame.K_a]:
             self.image = pygame.image.load(moving_left_images[counter])
+            self.aText = self.font.render('A', True, (144, 180, 216))
         elif pressed_keys[pygame.K_t]:
             tileOn = back_ground.getTile()
-            print(tileOn.condition)
             if isinstance(tileOn, Tile) and tileOn.condition == "empty":
                 tileOn.setCondition(1)
-                print(tileOn.condition)
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_p]:
             tileOn = back_ground.getTile()
-            print(tileOn.condition)
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
-                tileOn.crop = Crop("melon", 10, 10, .1)
-                tileOn.setCondition(2)
+                tileOn.crop = Crop(self.seeds[self.seedIndex], 10, 10, 10)
                 print(tileOn.crop.type)
+                tileOn.setCondition(2)
                 back_ground.updateTile()
+        elif pressed_keys[pygame.K_h]:
+            tileOn = back_ground.getTile()
+            if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
+                tileOn.setCondition(0)
+                tileOn.crop = None
+                #get money
+                back_ground.updateTile()
+        elif pressed_keys[pygame.K_f]:
+            tileOn = back_ground.getTile()
+            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling"):
+                tileOn.fertilizerLevel += .02
+                print("fertilized")
+                print(f"{tileOn.fertilizerLevel}")
+
+                lastFertilizeTime = time.time()
+                #use money
+                #add visual effect
+        elif pressed_keys[pygame.K_1]:
+            print(self.seedIndex)
+            print(self.toggle)
+            if self.toggle:
+                if self.seedIndex != self.seedIndexMax:
+                    self.seedIndex += 1
+                if self.seedIndex == self.seedIndexMax:
+                    self.seedIndex = 0
+                self.toggle = False
+
+        else:
+            self.image = pygame.image.load(idle_front_images[counter])
+            self.wText = self.font.render('W', True, (144, 200, 144))
+            self.aText = self.font.render('A', True, (144, 200, 144))
+            self.sText = self.font.render('S', True, (144, 200, 144))
+            self.dText = self.font.render('D', True, (144, 200, 144))
+
+
+class Rain():
+    def __init__(self):
+        self.bgimage = pygame.image.load('assets/rain.png')
+        self.rectBGimg = self.bgimage.get_rect()
+
+        self.bgY1 = -1000
+        self.bgX1 = 0
+
+        self.moving_speed = 5
+
+    def update(self):
+        self.bgY1 += self.moving_speed
+        if self.bgY1 <= -self.rectBGimg.height:
+            self.bgY1 = self.rectBGimg.height
+
+    def render(self):
+        SCREEN.blit(self.bgimage, (self.bgX1, self.bgY1))
 
 def showHeatMap():
     startX = (1280 - 595) / 2
@@ -177,24 +373,91 @@ def showHeatMap():
         y = startY
 
 john = Player()
-seed = "melon"
 back_ground = Background()
+#rain = Rain()
 
+def growStuff():
+    for i in range(0, 100):
+        for j in range(0, 100):
+            timeVar = time.time()
+
+            if isinstance(tile_array[i][j], Tile) and (tile_array[i][j].crop != None) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime):
+                tile_array[i][j].growTile()
+                #take money
+                tile_array[i][j].growthTime = timeVar
+                back_ground.updateTileGrow(i, j)
+class startScreenCls:
+    def __init__(self):
+        self.start = True
+        self.img1 = pygame.image.load('assets/background.png').convert()
+        self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.img1 = pygame.transform.scale(self.img1, self.DEFAULT_IMAGE_SIZE)
+
+        self.font = pygame.font.Font('assets/Daydream.ttf', 60)
+        self.titleText = self.font.render('Oh Deere Farms', True, (0, 200, 0))
+        self.font = pygame.font.Font('assets/Daydream.ttf', 40)
+        self.descriptionText = self.font.render('Push Any Key to Start', True, (0, 0, 0))
+    def startScreenCall(self):
+        SCREEN.blit(self.img1, (0,0))
+
+strt = startScreenCls()
+mixer.music.play()
+musicIndex = 0
 while running:
-    events = pygame.event.get()
-    pressed_keys = pygame.key.get_pressed()
-    for event in events:
+    strt.startScreenCall()
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
+            john.toggle = False
+        else:
+            john.toggle = True
+        if event.type == pygame.KEYDOWN:
+            strt.start = False
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            Paused()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+            if musicIndex == 0 or musicIndex == 1:
+                musicIndex += 1
+                mixer.music.load(musicPlaylist[musicIndex])
+                mixer.music.play()
+            else:
+                musicIndex = 0
+                mixer.music.load(musicPlaylist[musicIndex])
+                mixer.music.play()
+
+    if strt.start:
+        strt.startScreenCall()
+
+        SCREEN.blit(strt.titleText, (SCREEN_WIDTH/2-300, SCREEN_HEIGHT/2-175))
+        SCREEN.blit(strt.descriptionText, (SCREEN_WIDTH/2-400, SCREEN_HEIGHT/2+125))
+        pygame.display.update()
+        FramePerSec.tick(FPS)
+        continue
 
     back_ground.update()
     back_ground.render()
 
-    SCREEN.blit(john.image, john.rect)
+    #rain.update()
+    #rain.render()
 
-    time = pygame.time.get_ticks() / 600
+    SCREEN.blit(john.image, john.rect)
+    SCREEN.blit(john.log, john.hud_rect)
+    SCREEN.blit(john.moveText, (200,555))
+    SCREEN.blit(john.wText, (295, 590))
+    SCREEN.blit(john.aText, (265, 620))
+    SCREEN.blit(john.sText, (295, 620))
+    SCREEN.blit(john.dText, (325, 620))
+    SCREEN.blit(john.cropText, (810,550))
+    SCREEN.blit(john.cropIcon, john.cropRect)
+    SCREEN.blit(john.upgradeText, (810,600))
+    SCREEN.blit(john.upgradeIcon, john.upgradeRect)
+
+    growStuff()
+    timeAni = pygame.time.get_ticks() / 200
+    pressed_keys = pygame.key.get_pressed()
     john.move(pressed_keys)
 
     if pressed_keys[pygame.K_m]:
