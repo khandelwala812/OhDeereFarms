@@ -425,8 +425,8 @@ class Player(pygame.sprite.Sprite):
         self.sText = self.font.render("S", True, (144, 200, 144))
         self.dText = self.font.render("D", True, (144, 200, 144))
 
-        self.font = pygame.font.Font("assets/Daydream.ttf", 18)
-        self.mapText = self.font.render("(M) H-Map", True, (218, 112, 214))
+        self.font = pygame.font.Font("assets/Daydream.ttf", 16)
+        self.mapText = self.font.render("(M,N,B) Map", True, (218, 112, 214))
 
         self.font = pygame.font.Font("assets/Daydream.ttf", 24)
 
@@ -814,7 +814,7 @@ while running:
     SCREEN.blit(john.sText, (70, 570))
     SCREEN.blit(john.dText, (100, 570))
 
-    SCREEN.blit(john.mapText, (20, 620))
+    SCREEN.blit(john.mapText, (15, 620))
 
     SCREEN.blit(john.tillText, (170, 525))
     SCREEN.blit(john.plantText, (185, 560))
