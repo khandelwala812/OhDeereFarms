@@ -36,7 +36,6 @@ def Paused():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 paused = False
-                print("False")
             elif event.type == pygame.QUIT:
                 paused = False
                 running = False
@@ -96,8 +95,6 @@ class Background():
     def getTile(self):
         a1 = (self.bgX+625-1280)/-96
         a2 = (self.bgY-275)/-96
-        print(f"{self.bgX} {self.bgY}")
-        print(f"{a1} {a2}")
         return tile_array[int(a1)][int(a2)]
 
     def updateTile(self):
@@ -170,6 +167,7 @@ class Background():
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.seed = "melon"
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
         self.rect = self.surf.get_rect(center=(655, 265))
@@ -202,30 +200,35 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load(moving_left_images[counter])
         elif pressed_keys[pygame.K_t]:
             tileOn = back_ground.getTile()
-            print(tileOn.condition)
             if isinstance(tileOn, Tile) and tileOn.condition == "empty":
                 tileOn.setCondition(1)
-                print(tileOn.condition)
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_p]:
             tileOn = back_ground.getTile()
-            print(tileOn.condition)
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
-                tileOn.crop = Crop("melon", 10, 10, 1)
+                tileOn.crop = Crop(self.seed, 10, 10, 10)
                 tileOn.setCondition(2)
-                print(tileOn.crop.type)
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_h]:
             tileOn = back_ground.getTile()
-            print(tileOn.condition)
             if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
                 tileOn.setCondition(0)
                 tileOn.crop = None
                 #get money
                 back_ground.updateTile()
+        elif pressed_keys[pygame.K_f]:
+            tileOn = back_ground.getTile()
+            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling"):
+                tileOn.fertilizerLevel += .02
+                print("fertilized")
+                print(f"{tileOn.fertilizerLevel}")
+
+                lastFertilizeTime = time.time()
+                #use money
+                #add visual effect
+
 
 john = Player()
-seed = "melon"
 back_ground = Background()
 
 def growStuff():
