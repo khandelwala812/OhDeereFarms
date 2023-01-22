@@ -151,7 +151,5 @@ while running:
     time = pygame.time.get_ticks() / 600
     john.move()
 
-    back_ground.tileType()
-
     pygame.display.update()
     FramePerSec.tick(FPS)
