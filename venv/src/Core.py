@@ -467,12 +467,33 @@ class startScreenCls:
         self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self.img1 = pygame.transform.scale(self.img1, self.DEFAULT_IMAGE_SIZE)
 
-        self.font = pygame.font.Font('assets/Daydream.ttf', 60)
-        self.titleText = self.font.render('Oh Deere Farms', True, (0, 200, 0))
+        self.r, self.g, self.b = 160, 0, 0
+
+        self.font = pygame.font.Font('assets/Daydream.ttf', 80)
+        self.titleText = self.font.render('Oh Deere', True, (self.r, self.g, self.b))
+        self.titleText2 = self.font.render('Farms', True, (self.r, self.g, self.b))
         self.font = pygame.font.Font('assets/Daydream.ttf', 40)
-        self.descriptionText = self.font.render('Push Any Key to Start', True, (0, 0, 0))
+        self.descriptionText = self.font.render('Push Any Key to Start', True, (60, 60, 60))
     def startScreenCall(self):
         SCREEN.blit(self.img1, (0,0))
+        if self.b == 0 and not self.r == 0:
+            if self.r == 160 and self.g < 160:
+                self.g += 1
+            elif self.r > 0 and self.g == 160:
+                self.r -= 1
+        elif self.r == 0 and not self.g == 0:
+            if self.g == 160 and self.b < 160:
+                self.b += 1
+            elif self.g > 0 and self.b == 160:
+                self.g -= 1
+        elif self.g == 0:
+            if self.b == 160 and self.r < 160:
+                self.r += 1
+            elif self.b > 0 and self.r == 160:
+                self.b -= 1
+        self.font = pygame.font.Font('assets/Daydream.ttf', 80)
+        self.titleText = self.font.render('Oh Deere', True, (self.r, self.g, self.b))
+        self.titleText2 = self.font.render('Farms', True, (self.r, self.g, self.b))
 
 strt = startScreenCls()
 pauser = PausedClass()
@@ -510,8 +531,9 @@ while running:
     if strt.start:
         strt.startScreenCall()
 
-        SCREEN.blit(strt.titleText, (SCREEN_WIDTH/2-300, SCREEN_HEIGHT/2-175))
-        SCREEN.blit(strt.descriptionText, (SCREEN_WIDTH/2-400, SCREEN_HEIGHT/2+125))
+        SCREEN.blit(strt.titleText, (SCREEN_WIDTH/2-300, SCREEN_HEIGHT/2-280))
+        SCREEN.blit(strt.titleText2, (SCREEN_WIDTH/2-210, SCREEN_HEIGHT/2-175))
+        SCREEN.blit(strt.descriptionText, (SCREEN_WIDTH/2-400, SCREEN_HEIGHT/2+140))
         pygame.display.update()
         FramePerSec.tick(FPS)
         continue
