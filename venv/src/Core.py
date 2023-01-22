@@ -54,6 +54,17 @@ class PausedClass:
     def Paused(self):
         paused = True
         while paused:
+            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-250, SCREEN_HEIGHT/2-50))
+            pygame.display.update()
+            FramePerSec.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    paused = False
+                elif event.type == pygame.QUIT:
+                    paused = False
+                    running = False
+                    pygame.quit()
+                    sys.exit()
             SCREEN.blit(
                 pauser.descriptionText, (SCREEN_WIDTH / 2 - 250, SCREEN_HEIGHT / 2 - 50)
             )
@@ -75,6 +86,7 @@ class PausedClass:
             self.descriptionText = self.font.render(
                 "PAUSED", True, (self.r, self.g, self.b)
             )
+
 
 
 class Background:
@@ -747,7 +759,7 @@ while running:
             strt.start = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             SCREEN.blit(
-                pauser.descriptionText, (SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 - 50)
+                pauser.descriptionText, (SCREEN_WIDTH / 2 - 250, SCREEN_HEIGHT / 2 - 50)
             )
             pauser.Paused()
             pygame.display.update()
