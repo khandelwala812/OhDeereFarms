@@ -44,4 +44,4 @@ def heatmap(tiles, levelType):
                 else:
                     tileSum += 1
 
-    return tileSum/100
+    return tileSum / 100
