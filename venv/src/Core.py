@@ -595,7 +595,7 @@ class Player(pygame.sprite.Sprite):
                 sound3 = pygame.mixer.Sound("assets/music/harvest.wav")
                 pygame.mixer.find_channel(True).play(sound3)
                 tileOn.setCondition(0)
-                self.increaseC(10*(tileOn.crop.yields))
+                self.increaseC(tileOn.crop.yields)
                 tileOn.crop = None
                 back_ground.updateTile()
                 self.image = pygame.image.load(action_images[counter])
