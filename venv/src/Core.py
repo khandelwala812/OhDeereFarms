@@ -292,7 +292,7 @@ class Player(pygame.sprite.Sprite):
         self.wcurrency += water
 
     def decreaseW(self, water):
-        self.wcurrency -= water
+            self.wcurrency -= water
 
     def getW(self, water):
         return self.wcurrency
@@ -381,7 +381,6 @@ class Player(pygame.sprite.Sprite):
                 if self.seedIndex != self.seedIndexMax:
                     self.seedIndex += 1
                     self.cropIcon = pygame.image.load('assets/plants/icons/' + self.seeds[self.seedIndex] + '.png')
-                    print(self.seedIndex)
                 elif self.seedIndex == self.seedIndexMax:
                     self.seedIndex = 0
                     self.cropIcon = pygame.image.load('assets/plants/icons/' + self.seeds[self.seedIndex] + '.png')
@@ -404,6 +403,21 @@ class Rain:
         self.bgX1 = 0
 
         self.moving_speed = 5
+    
+    def generateWeather(self, tiles):
+        isRaining = 1#random.uniform(0, 1) < 0.1
+
+        while isRaining:
+            self.update()
+            self.render()
+            fertilizerVal = heatmap5(tiles, "f")
+            tillageVal = heatmap5(tiles, "t")
+            sameCropVal = heatmap5(tiles, "s")
+            #############################___FIX___####################################################################
+            #weatherVal = int(round((fertilizerVal + tillageVal + sameCropVal) / 3))
+            offset = 10
+            #john.increaseW(random.randint(weatherVal, weatherVal + offset))
+
 
     def update(self):
         self.bgY1 += self.moving_speed
@@ -505,6 +519,7 @@ while running:
     back_ground.update()
     back_ground.render()
 
+    #rain.generateWeather(tile_array)
     #rain.update()
     #rain.render()
 
