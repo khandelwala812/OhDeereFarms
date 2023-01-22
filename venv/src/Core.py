@@ -685,7 +685,7 @@ class Rain:
         self.lastRain = time.time()
         self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self.bgimage = pygame.transform.scale(self.bgimage, self.DEFAULT_IMAGE_SIZE)
-       
+
     def render(self):
         SCREEN.blit(self.bgimage, (0, 0))
 
