@@ -331,83 +331,77 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_a]:
             self.image = pygame.image.load(moving_left_images[counter])
             self.aText = self.font.render('A', True, (144, 180, 216))
-        elif pressed_keys[pygame.K_t]:
+        elif pressed_keys[pygame.K_j]: #till
             tileOn = back_ground.getTile()
 
             if isinstance(tileOn, Tile) and tileOn.condition == "empty":
                 tileOn.setCondition(1)
                 back_ground.updateTile()
-
+                self.image = pygame.image.load(action_images[counter])
                 sound1 = pygame.mixer.Sound("assets/action.wav")
                 pygame.mixer.find_channel(True).play(sound1)
             elif isinstance(tileOn, RandomTile):
-
                 sound3 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound3)
-        elif pressed_keys[pygame.K_p]:
+        elif pressed_keys[pygame.K_k]: #plant
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None and self.wcurrency >= 10:
                 sound4 = pygame.mixer.Sound("assets/plant.wav")
                 pygame.mixer.find_channel(True).play(sound4)
                 tileOn.crop = Crop(self.seeds[self.seedIndex], 10, 10, 10)
-                self.wcurrency -= 10
+                self.decreaseW(10)
                 tileOn.setCondition(2)
                 back_ground.updateTile()
+                self.image = pygame.image.load(action_images[counter])
             elif isinstance(tileOn, RandomTile):
-
                 sound3 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound3)
-        elif pressed_keys[pygame.K_h]:
-
+        elif pressed_keys[pygame.K_l]: #harvest
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
-
-                sound3 = pygame.mixer.Sound("assets/whoosh.wav")
+                sound3 = pygame.mixer.Sound("assets/harvest.wav")
                 pygame.mixer.find_channel(True).play(sound3)
                 tileOn.setCondition(0)
                 tileOn.crop = None
-                self.ccurrency += 10
+                self.increaseC(10)
                 back_ground.updateTile()
+                self.image = pygame.image.load(action_images[counter])
             elif isinstance(tileOn, RandomTile):
-
                 sound3 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound3)
-        elif pressed_keys[pygame.K_f]:
+        elif pressed_keys[pygame.K_i]: #fertilize
             tileOn = back_ground.getTile()
-
-            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling") and tileOn.crop.growthTime > 1:
-
+            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling") and tileOn.crop.growthTime > 1 and self.ccurrency > 0:
                 sound2 = pygame.mixer.Sound("assets/fertilizer.wav")
                 pygame.mixer.find_channel(True).play(sound2)
                 tileOn.addFertilizer(.02)
 
                 tileOn.lastFertilizeTime = time.time()
-
-                self.ccurrency -= 1
+                self.decreaseC(-1)
+                self.image = pygame.image.load(action_images[counter])
                 #add visual effect
             elif isinstance(tileOn, RandomTile):
-
                 sound2 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound2)
         elif pressed_keys[pygame.K_p]: #upgrade
             if self.toggle:
                 if self.seedIndexMax < 1 and self.ccurrency >= 10:
-                    self.ccurrency -= 10
+                    self.decreaseC(10)
                     self.seedIndexMax = 1
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/cantaloupe.png')
                     self.upgradeCost = self.font.render('$20', True, (255, 160, 122))
                 elif self.seedIndexMax < 2 and self.ccurrency >= 20:
-                    self.ccurrency -= 20
+                    self.decreaseC(20)
                     self.seedIndexMax = 2
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/melon.png')
                     self.upgradeCost = self.font.render('$30', True, (255, 160, 122))
                 elif self.seedIndexMax < 3 and self.ccurrency >= 30:
-                    self.ccurrency -= 30
+                    self.decreaseC(30)
                     self.seedIndexMax = 3
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/grape.png')
                     self.upgradeCost = self.font.render('$40', True, (255, 160, 122))
                 elif self.seedIndexMax < 4 and self.ccurrency >= 40:
-                    self.ccurrency -= 40
+                    self.decreaseC(40)
                     self.seedIndexMax = 4
                     self.upgradeIcon = pygame.image.load('assets/plants/icons/x.png')
                     self.upgradeCost = self.font.render('MAX', True, (255, 160, 122))
@@ -429,12 +423,10 @@ class Player(pygame.sprite.Sprite):
             self.sText = self.font.render('S', True, (144, 200, 144))
             self.dText = self.font.render('D', True, (144, 200, 144))
 
-
 class Rain:
     def __init__(self):
         self.bgimage = pygame.image.load('assets/rain.png')
         self.rectBGimg = self.bgimage.get_rect()
-
         self.bgY1 = -1000
         self.bgX1 = 0
 
@@ -453,13 +445,11 @@ class Rain:
             #weatherVal = int(round((fertilizerVal + tillageVal + sameCropVal) / 3))
             offset = 10
             #john.increaseW(random.randint(weatherVal, weatherVal + offset))
-
-
+       
     def update(self):
         self.bgY1 += self.moving_speed
         if self.bgY1 <= -self.rectBGimg.height:
             self.bgY1 = self.rectBGimg.height
-
     def render(self):
         SCREEN.blit(self.bgimage, (self.bgX1, self.bgY1))
 
@@ -610,6 +600,7 @@ while running:
 
     SCREEN.blit(john.waterText, (490,600))
     SCREEN.blit(john.waterAmount, (640,600))
+
     growStuff()
     timeAni = pygame.time.get_ticks() / 200
     pressed_keys = pygame.key.get_pressed()
