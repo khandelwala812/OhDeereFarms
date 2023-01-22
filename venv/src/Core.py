@@ -596,7 +596,7 @@ class Player(pygame.sprite.Sprite):
                 pygame.mixer.find_channel(True).play(sound3)
                 tileOn.setCondition(0)
                 tileOn.crop = None
-                self.increaseC(10)
+                self.increaseC(15*(tileOn.crop.yields))
                 back_ground.updateTile()
                 self.image = pygame.image.load(action_images[counter])
             elif isinstance(tileOn, RandomTile):
