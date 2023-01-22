@@ -208,9 +208,12 @@ class Player(pygame.sprite.Sprite):
         self.hud = pygame.Surface((1280,500))
         self.hud_rect = self.hud.get_rect(center = (640, 600))
 
-        font = pygame.font.Font('assets/Daydream.ttf', 24)
-        self.moveText = font.render('Movement', True, (0, 200, 0))
-        self.wasdText = font.render('WASD', True, (144, 200, 144))
+        self.font = pygame.font.Font('assets/Daydream.ttf', 24)
+        self.moveText = self.font.render('Movement', True, (0, 200, 0))
+        self.wText = self.font.render('W', True, (144, 200, 144))
+        self.aText = self.font.render('A', True, (144, 200, 144))
+        self.sText = self.font.render('S', True, (144, 200, 144))
+        self.dText = self.font.render('D', True, (144, 200, 144))
 
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
@@ -281,8 +284,27 @@ class Player(pygame.sprite.Sprite):
             self.dText = self.font.render('D', True, (144, 200, 144))
 
 
+class Rain():
+    def __init__(self):
+        self.bgimage = pygame.image.load('assets/rain.png')
+        self.rectBGimg = self.bgimage.get_rect()
+
+        self.bgY1 = -1000
+        self.bgX1 = 0
+
+        self.moving_speed = 5
+
+    def update(self):
+        self.bgY1 += self.moving_speed
+        if self.bgY1 <= -self.rectBGimg.height:
+            self.bgY1 = self.rectBGimg.height
+
+    def render(self):
+        SCREEN.blit(self.bgimage, (self.bgX1, self.bgY1))
+
 john = Player()
 back_ground = Background()
+rain = Rain()
 
 def growStuff():
     for i in range(0, 100):
@@ -308,10 +330,16 @@ while running:
     back_ground.update()
     back_ground.render()
 
+    rain.update()
+    rain.render()
+
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)
     SCREEN.blit(john.moveText, (200,555))
-    SCREEN.blit(john.wasdText, (250, 590))
+    SCREEN.blit(john.wText, (295, 590))
+    SCREEN.blit(john.aText, (265, 620))
+    SCREEN.blit(john.sText, (295, 620))
+    SCREEN.blit(john.dText, (325, 620))
 
     growStuff()
     timeAni = pygame.time.get_ticks() / 200
