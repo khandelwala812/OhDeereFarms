@@ -2,10 +2,13 @@ import sys
 from random import random
 
 import pygame
+from pygame.locals import Color
+
 from tkinter import *
 from Tile import *
 from Crop import *
 from RandomTile import *
+from HeatMap import heatmap5
 
 pygame.init()
 
@@ -78,13 +81,13 @@ class Background():
         SCREEN.blit(self.surface, (self.bgX, self.bgY))
 
     def getCords(self):
-        return (self.bgX+640-1280, self.bgY-360)
+        return self.bgX + 640 - 1280, self.bgY - 360
+
+    def getTileIndices(self):
+        return int((self.bgX + 625 - 1280) / -96), int((self.bgY - 275) / -96)
 
     def getTile(self):
-        a1 = (self.bgX+625-1280)/-96
-        a2 = (self.bgY-275)/-96
-        print(f"{self.bgX} {self.bgY}")
-        print(f"{a1} {a2}")
+        a1, a2 = self.__getTileIndices()
         return tile_array[int(a1)][int(a2)]
 
     def updateTile(self):
@@ -153,12 +156,34 @@ class Player(pygame.sprite.Sprite):
                 print(tileOn.crop.type)
                 back_ground.updateTile()
 
+def showHeatMap():
+    startX = (1280 - 595) / 2
+    startY = (660 - 595) / 2
+    x = startX
+    y = startY
+    side = 25
+    spacer = side + 5
+
+    heatMap = heatmap5(tile_array, "f")
+    for row in heatMap:
+        for heatMapValue in row:
+            surface = pygame.display.get_surface()
+            box = pygame.Rect((x, y), (side, side))
+            colorScale = int(round(255 * heatMapValue))
+            surface.fill(Color((0, colorScale, 0)), box)
+            y += spacer
+
+        x += spacer
+        y = startY
+
 john = Player()
 seed = "melon"
 back_ground = Background()
 
 while running:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    pressed_keys = pygame.key.get_pressed()
+    for event in events:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
@@ -170,9 +195,10 @@ while running:
     SCREEN.blit(john.image, john.rect)
 
     time = pygame.time.get_ticks() / 600
-    pressed_keys = pygame.key.get_pressed()
     john.move(pressed_keys)
-    # heatmap.show(pressed_keys)
+
+    if pressed_keys[pygame.K_m]:
+        showHeatMap()
 
     pygame.display.update()
     FramePerSec.tick(FPS)

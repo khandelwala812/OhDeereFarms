@@ -1,28 +1,33 @@
 import pygame as pg
-import random
 from pygame.locals import *
+import random
+from RandomTile import RandomTile
 
 #returns heat map based on input of f for fertilizer, t for tillage, s for same crop
 def heatmap5(tiles, levelType):
-    heatmap = [[],[]]
+    heatmap = [[0] * 20] * 20
     # gives weights for color
-    for i in tiles:
-        for j in tiles[i]:
+    for i in range(0, len(tiles), 5):
+        for j in range(0, len(tiles[i]), 5):
             tileSum = 0
             for k in range(5):
                 for l in range(5):
+                    if isinstance(tiles[k][l], RandomTile):
+                        continue
+
                     if levelType == "f":
-                        tileSum += tiles[k][l].fertilizer
+                        tileSum += tiles[k][l].fertilizerLevel
                     elif levelType == "t":
                         tileSum += tiles[k][l].tillage
                     elif levelType == "s":
-                        if tiles[i][j].sameCrop < 4:
-                            tileSum += tiles[i][j].sameCrop / 3
+                        if tiles[k][l].sameCrop < 4:
+                            tileSum += tiles[k][l].sameCrop / 3
                         else:
                             tileSum += 1
-            heatmap[i/5][j/5] = tileSum/25
-            j += 5
-            i += 5
+            x = int(i / 5)
+            y = int(j / 5)
+            heatmap[x][y] = tileSum / 25
+
     return heatmap
 
 # returns average value based on input of f for fertilizer, t for tillage, s for same crop
@@ -43,7 +48,7 @@ def heatmap(tiles, levelType):
 
     return tileSum/100
 
-def showHeatMap(levelType):
+def showHeatMap():
     # width = screen.get_width()
     # height = screen.get_height()
     # gameDisplay = pg.display.set_mode((width, height))
@@ -88,24 +93,26 @@ def showHeatMap(levelType):
 
 # button("Continue", 150, 450, 100, 50, "green", "bright_green", "unpause")
 # button("Quit", 550, 450, 100, 50, "red", "bright_red", "quitgame")
-pg.init()
-screen = pg.display.set_mode((1280, 700))
-screen.fill(Color("white"))
+# pg.init()
+# screen = pg.display.set_mode((1280, 700))
+# screen.fill(Color("white"))
+#
+# showHeatMap()
 
-def gradientRect(window, left_colour, right_colour, target_rect ):
-    colour_rect = pg.Surface((2, 2))
-    pg.draw.line( colour_rect, left_colour, (0, 0), (0, 1))
-    pg.draw.line( colour_rect, right_colour, (1, 0), (1, 1))
-    colour_rect = pg.transform.smoothscale(colour_rect, (target_rect.width, target_rect.height))
-    window.blit(colour_rect, target_rect)  
-
-running = True
-while running:
-    events = pg.event.get()
-    for event in events:
-        if event.type == pg.quit:
-            running = False
-
-    gradientRect(screen, (0, 0, 0), (0, 255, 0), pg.Rect((0, 0), (50, 50)))
-
-    pg.display.update()
+# def gradientRect(window, left_colour, right_colour, target_rect ):
+#     colour_rect = pg.Surface((2, 2))
+#     pg.draw.line( colour_rect, left_colour, (0, 0), (0, 1))
+#     pg.draw.line( colour_rect, right_colour, (1, 0), (1, 1))
+#     colour_rect = pg.transform.smoothscale(colour_rect, (target_rect.width, target_rect.height))
+#     window.blit(colour_rect, target_rect)
+#
+# running = True
+# while running:
+#     events = pg.event.get()
+#     for event in events:
+#         if event.type == pg.quit:
+#             running = False
+#
+#     gradientRect(screen, (0, 0, 0), (0, 255, 0), pg.Rect((0, 0), (50, 50)))
+#
+#     pg.display.update()
