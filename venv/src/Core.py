@@ -219,7 +219,7 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_f]:
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling"):
-                tileOn.fertilizerLevel += .02
+                tileOn.addFertilizer(0.02)
                 print("fertilized")
                 print(f"{tileOn.fertilizerLevel}")
 
