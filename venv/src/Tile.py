@@ -38,6 +38,7 @@ class Tile:
     @crop.setter
     def crop(self, crop):
         self._crop = crop
+        self._growthTime = int(time.time())
 
     @property
     def condition(self):
@@ -62,6 +63,9 @@ class Tile:
                 prevTime = self._timeTilled[0]
                 self._timeTilled = now, prevTime
         self._tillage += 1
+
+    def growTile(self):
+        self._condition += 1
 
     @property
     def fertilizerLevel(self):
