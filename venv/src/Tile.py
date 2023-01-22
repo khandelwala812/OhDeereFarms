@@ -57,6 +57,7 @@ class Tile:
                 self._sameCrop += 1
             else:
                 self._sameCrop = 0
+                self._lastCrop = self._crop.type
 
         if condition == 1:
             now = int(round(time.time()))
