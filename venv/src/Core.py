@@ -112,6 +112,22 @@ class Background():
             img = pygame.image.load('assets/plants/melon_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
             img = pygame.image.load('assets/plants/melon_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -145,6 +161,22 @@ class Background():
             img = pygame.image.load('assets/plants/melon_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
             img = pygame.image.load('assets/plants/melon_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -206,7 +238,9 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_p]:
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
+                print(f"{self.seed}")
                 tileOn.crop = Crop(self.seed, 10, 10, 10)
+                print(tileOn.crop.type)
                 tileOn.setCondition(2)
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_h]:
@@ -226,6 +260,14 @@ class Player(pygame.sprite.Sprite):
                 lastFertilizeTime = time.time()
                 #use money
                 #add visual effect
+        elif pressed_keys[pygame.K_1]:
+            self.seed = "melon"
+            print(1)
+        elif pressed_keys[pygame.K_2]:
+            self.seed = "radish"
+            print(2)
+        elif pressed_keys[pygame.K_3]:
+            self.seed = "pepper"
 
 
 john = Player()
