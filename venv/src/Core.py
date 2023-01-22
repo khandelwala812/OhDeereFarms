@@ -176,9 +176,12 @@ class Player(pygame.sprite.Sprite):
         self.hud = pygame.Surface((1280,500))
         self.hud_rect = self.hud.get_rect(center = (640, 600))
 
-        font = pygame.font.Font('assets/Daydream.ttf', 24)
-        self.moveText = font.render('Movement', True, (0, 200, 0))
-        self.wasdText = font.render('WASD', True, (144, 200, 144))
+        self.font = pygame.font.Font('assets/Daydream.ttf', 24)
+        self.moveText = self.font.render('Movement', True, (0, 200, 0))
+        self.wText = self.font.render('W', True, (144, 200, 144))
+        self.aText = self.font.render('A', True, (144, 200, 144))
+        self.sText = self.font.render('S', True, (144, 200, 144))
+        self.dText = self.font.render('D', True, (144, 200, 144))
 
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
@@ -189,15 +192,20 @@ class Player(pygame.sprite.Sprite):
         moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
         moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
         moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
+        idle_front_images = ['assets/john/front/front_facing_1.png', 'assets/john/front/front_facing_2.png']
         counter = int(timeAni) % 2
         if pressed_keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
+            self.wText = self.font.render('W', True, (144, 180, 216))
         elif pressed_keys[pygame.K_s]:
             self.image = pygame.image.load(moving_down_images[counter])
+            self.sText = self.font.render('S', True, (144, 180, 216))
         elif pressed_keys[pygame.K_d]:
             self.image = pygame.image.load(moving_right_images[counter])
+            self.dText = self.font.render('D', True, (144, 180, 216))
         elif pressed_keys[pygame.K_a]:
             self.image = pygame.image.load(moving_left_images[counter])
+            self.aText = self.font.render('A', True, (144, 180, 216))
         elif pressed_keys[pygame.K_t]:
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "empty":
@@ -226,6 +234,12 @@ class Player(pygame.sprite.Sprite):
                 lastFertilizeTime = time.time()
                 #use money
                 #add visual effect
+        else:
+            self.image = pygame.image.load(idle_front_images[counter])
+            self.wText = self.font.render('W', True, (144, 200, 144))
+            self.aText = self.font.render('A', True, (144, 200, 144))
+            self.sText = self.font.render('S', True, (144, 200, 144))
+            self.dText = self.font.render('D', True, (144, 200, 144))
 
 
 john = Player()
@@ -258,7 +272,10 @@ while running:
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)
     SCREEN.blit(john.moveText, (200,555))
-    SCREEN.blit(john.wasdText, (250, 590))
+    SCREEN.blit(john.wText, (295, 590))
+    SCREEN.blit(john.aText, (265, 620))
+    SCREEN.blit(john.sText, (295, 620))
+    SCREEN.blit(john.dText, (325, 620))
 
     growStuff()
     timeAni = pygame.time.get_ticks() / 200
