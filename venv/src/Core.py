@@ -304,7 +304,7 @@ class Rain():
 
 john = Player()
 back_ground = Background()
-rain = Rain()
+#rain = Rain()
 
 def growStuff():
     for i in range(0, 100):
@@ -325,13 +325,13 @@ while running:
             sys.exit()
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             Paused()
-            
+
 
     back_ground.update()
     back_ground.render()
 
-    rain.update()
-    rain.render()
+    #rain.update()
+    #rain.render()
 
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)

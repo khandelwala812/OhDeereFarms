@@ -39,4 +39,3 @@ class Game:
             return random.randint(weatherVal, weatherVal + offset)
 
         return 0
-
