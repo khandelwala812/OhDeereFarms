@@ -112,6 +112,22 @@ class Background():
             img = pygame.image.load('assets/plants/melon_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
             img = pygame.image.load('assets/plants/melon_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -145,6 +161,22 @@ class Background():
             img = pygame.image.load('assets/plants/melon_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
             img = pygame.image.load('assets/plants/melon_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "radish"):
+            img = pygame.image.load('assets/plants/radish_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
+            img = pygame.image.load('assets/plants/pepper_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -176,12 +208,9 @@ class Player(pygame.sprite.Sprite):
         self.hud = pygame.Surface((1280,500))
         self.hud_rect = self.hud.get_rect(center = (640, 600))
 
-        self.font = pygame.font.Font('assets/Daydream.ttf', 24)
-        self.moveText = self.font.render('Movement', True, (0, 200, 0))
-        self.wText = self.font.render('W', True, (144, 200, 144))
-        self.aText = self.font.render('A', True, (144, 200, 144))
-        self.sText = self.font.render('S', True, (144, 200, 144))
-        self.dText = self.font.render('D', True, (144, 200, 144))
+        font = pygame.font.Font('assets/Daydream.ttf', 24)
+        self.moveText = font.render('Movement', True, (0, 200, 0))
+        self.wasdText = font.render('WASD', True, (144, 200, 144))
 
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
@@ -214,7 +243,9 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_p]:
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
+                print(f"{self.seed}")
                 tileOn.crop = Crop(self.seed, 10, 10, 10)
+                print(tileOn.crop.type)
                 tileOn.setCondition(2)
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_h]:
@@ -234,6 +265,14 @@ class Player(pygame.sprite.Sprite):
                 lastFertilizeTime = time.time()
                 #use money
                 #add visual effect
+        elif pressed_keys[pygame.K_1]:
+            self.seed = "melon"
+            print(1)
+        elif pressed_keys[pygame.K_2]:
+            self.seed = "radish"
+            print(2)
+        elif pressed_keys[pygame.K_3]:
+            self.seed = "pepper"
         else:
             self.image = pygame.image.load(idle_front_images[counter])
             self.wText = self.font.render('W', True, (144, 200, 144))
@@ -272,10 +311,7 @@ while running:
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)
     SCREEN.blit(john.moveText, (200,555))
-    SCREEN.blit(john.wText, (295, 590))
-    SCREEN.blit(john.aText, (265, 620))
-    SCREEN.blit(john.sText, (295, 620))
-    SCREEN.blit(john.dText, (325, 620))
+    SCREEN.blit(john.wasdText, (250, 590))
 
     growStuff()
     timeAni = pygame.time.get_ticks() / 200

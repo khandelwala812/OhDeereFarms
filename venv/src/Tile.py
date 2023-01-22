@@ -25,7 +25,11 @@ class Tile:
 
     @property
     def growthTime(self):
-        return self._growthTime * (1 - self._fertilizerLevel)
+        return self._growthTime
+
+    def addFertilizer(self, quantity):
+        self._fertilizerLevel += quantity
+        self._crop.growthTime *= (1 - self._fertilizerLevel)
 
     @growthTime.setter
     def growthTime(self, time):
