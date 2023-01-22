@@ -17,7 +17,7 @@ musicPlaylist = [
     "assets/music/country-fun.mp3",
 ]
 mixer.music.load(musicPlaylist[0])
-mixer.music.set_volume(1)
+mixer.music.set_volume(0)
 coins = 100
 FPS = 80
 FramePerSec = pygame.time.Clock()
