@@ -133,6 +133,22 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -182,6 +198,22 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "pepper"):
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantalope"):
+            img = pygame.image.load('assets/plants/cantalope_4.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "grape"):
+            img = pygame.image.load('assets/plants/grape_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
