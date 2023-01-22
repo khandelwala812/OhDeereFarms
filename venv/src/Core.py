@@ -81,12 +81,15 @@ class Background():
         return (self.bgX+640-1280, self.bgY-360)
 
     def getTile(self):
-        a1 = (self.bgX+640-1280)/-96
-        a2 = (self.bgY-360)/-96
+        a1 = (self.bgX+625-1280)/-96
+        a2 = (self.bgY-275)/-96
+        print(f"{self.bgX} {self.bgY}")
+        print(f"{a1} {a2}")
         return tile_array[int(a1)][int(a2)]
+
     def updateTile(self):
-        a1 = int((self.bgX+640-1280)/-96)
-        a2 = int((self.bgY-360)/-96)
+        a1 = int((self.bgX+625-1280)/-96)
+        a2 = int((self.bgY-275)/-96)
         if(tile_array[a1][a2].condition == "empty"):
             img = pygame.image.load('assets/plot/untilled_plot.png').convert()
         if(tile_array[a1][a2].condition == "tilled" and tile_array[a1][a2].crop == None):
@@ -122,7 +125,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
-        self.rect = self.surf.get_rect(center = (640, 357))
+        self.rect = self.surf.get_rect(center = (655, 265))
 
     def move(self):
         pressed_keys = pygame.key.get_pressed()
