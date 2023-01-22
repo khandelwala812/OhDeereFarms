@@ -292,7 +292,7 @@ class Player(pygame.sprite.Sprite):
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
         #self.hud.fill((0,255,255))
-    
+
     def increaseW(self, water):
         self.wcurrency += water
 
@@ -304,7 +304,7 @@ class Player(pygame.sprite.Sprite):
 
     def increaseC(self, coin):
         self.ccurrency += coin
-    
+
     def decreaseC(self, coin):
         self.ccurrency -= coin
 
@@ -331,20 +331,19 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_a]:
             self.image = pygame.image.load(moving_left_images[counter])
             self.aText = self.font.render('A', True, (144, 180, 216))
-        elif pressed_keys[pygame.K_t]:
+        elif pressed_keys[pygame.K_j]: #till
             tileOn = back_ground.getTile()
 
             if isinstance(tileOn, Tile) and tileOn.condition == "empty":
                 tileOn.setCondition(1)
                 back_ground.updateTile()
-
+                self.image = pygame.image.load(action_images[counter])
                 sound1 = pygame.mixer.Sound("assets/action.wav")
                 pygame.mixer.find_channel(True).play(sound1)
             elif isinstance(tileOn, RandomTile):
-
                 sound3 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound3)
-        elif pressed_keys[pygame.K_p]:
+        elif pressed_keys[pygame.K_k]: #plant
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None and self.wcurrency >= 10:
                 sound4 = pygame.mixer.Sound("assets/plant.wav")
@@ -353,40 +352,34 @@ class Player(pygame.sprite.Sprite):
                 self.wcurrency -= 10
                 tileOn.setCondition(2)
                 back_ground.updateTile()
+                self.image = pygame.image.load(action_images[counter])
             elif isinstance(tileOn, RandomTile):
-
                 sound3 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound3)
-        elif pressed_keys[pygame.K_h]:
-
+        elif pressed_keys[pygame.K_l]: #harvest
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
-
                 sound3 = pygame.mixer.Sound("assets/whoosh.wav")
                 pygame.mixer.find_channel(True).play(sound3)
                 tileOn.setCondition(0)
                 tileOn.crop = None
                 self.ccurrency += 10
                 back_ground.updateTile()
+                self.image = pygame.image.load(action_images[counter])
             elif isinstance(tileOn, RandomTile):
-
                 sound3 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound3)
-        elif pressed_keys[pygame.K_f]:
+        elif pressed_keys[pygame.K_i]: #fertilize
             tileOn = back_ground.getTile()
-
             if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling") and tileOn.crop.growthTime > 1:
-
                 sound2 = pygame.mixer.Sound("assets/fertilizer.wav")
                 pygame.mixer.find_channel(True).play(sound2)
                 tileOn.addFertilizer(.02)
-
                 tileOn.lastFertilizeTime = time.time()
-
                 self.ccurrency -= 1
+                self.image = pygame.image.load(action_images[counter])
                 #add visual effect
             elif isinstance(tileOn, RandomTile):
-
                 sound2 = pygame.mixer.Sound("assets/laser.wav")
                 pygame.mixer.find_channel(True).play(sound2)
         elif pressed_keys[pygame.K_p]: #upgrade
@@ -439,7 +432,7 @@ class Rain:
         self.bgX1 = 0
 
         self.moving_speed = 5
-    
+
     def generateWeather(self, tiles):
         isRaining = 1#random.uniform(0, 1) < 0.1
 
