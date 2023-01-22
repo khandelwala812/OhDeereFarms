@@ -10,7 +10,8 @@ from RandomTile import *
 
 pygame.init()
 mixer.init()
-mixer.music.load("assets/out-on-the-farm-110607.mp3")
+musicPlaylist = ["assets/out-on-the-farm-110607.mp3", "assets/merry-farm.mp3", "assets/country-fun.mp3"]
+mixer.music.load(musicPlaylist[0])
 mixer.music.set_volume(1)
 
 FPS = 80
@@ -336,6 +337,7 @@ class startScreenCls:
 
 strt = startScreenCls()
 mixer.music.play()
+musicIndex = 0
 while running:
     strt.startScreenCall()
     for event in pygame.event.get():
@@ -345,8 +347,19 @@ while running:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             strt.start = False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             Paused()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+            print("Yo")
+            if musicIndex < len(musicPlaylist) - 1:
+                musicIndex += 1
+                mixer.music.load(musicPlaylist[musicIndex])
+                mixer.music.play()
+                print("print")
+            else:
+                musicIndex = 0
+                mixer.music.load(musicPlaylist[musicIndex])
+                mixer.music.play()
 
     if strt.start:
         strt.startScreenCall()
