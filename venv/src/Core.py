@@ -125,7 +125,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
-        self.rect = self.surf.get_rect(center = (655, 265))
+        self.rect = self.surf.get_rect(center=(655, 265))
 
     def move(self, pressed_keys):
         counter = int(time) % 2
@@ -172,9 +172,7 @@ while running:
     time = pygame.time.get_ticks() / 600
     pressed_keys = pygame.key.get_pressed()
     john.move(pressed_keys)
-    heatmap.show(pressed_keys)
-
-
+    # heatmap.show(pressed_keys)
 
     pygame.display.update()
     FramePerSec.tick(FPS)
