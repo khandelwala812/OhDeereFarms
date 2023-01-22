@@ -119,10 +119,9 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
-        self.rect = self.surf.get_rect(center = (640, 357))
+        self.rect = self.surf.get_rect(center=(640, 357))
 
-    def move(self):
-        pressed_keys = pygame.key.get_pressed()
+    def move(self, pressed_keys):
         counter = int(time) % 2
         if pressed_keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
@@ -149,7 +148,9 @@ while running:
     SCREEN.blit(john.image, john.rect)
 
     time = pygame.time.get_ticks() / 600
-    john.move()
+    pressed_keys = pygame.key.get_pressed()
+    john.move(pressed_keys)
+    heatmap.show(pressed_keys)
 
     pygame.display.update()
     FramePerSec.tick(FPS)

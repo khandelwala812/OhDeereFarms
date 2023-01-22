@@ -1,12 +1,11 @@
-#returns heat map based on input of f for fertilizer, t for tillage, s for same crop
 import pygame as pg
 import random
 from pygame.locals import *
 
-
+#returns heat map based on input of f for fertilizer, t for tillage, s for same crop
 def heatmap5(tiles, levelType):
     heatmap = [[],[]]
-    #gives weights for color
+    # gives weights for color
     for i in tiles:
         for j in tiles[i]:
             tileSum = 0
@@ -25,10 +24,11 @@ def heatmap5(tiles, levelType):
             j += 5
             i += 5
     return heatmap
-#returns average value based on input of f for fertilizer, t for tillage, s for same crop
+
+# returns average value based on input of f for fertilizer, t for tillage, s for same crop
 def heatmap(tiles, levelType):
     tileSum = 0
-    #gives weights for color
+    # gives weights for color
     for i in tiles:
         for j in tiles[i]:
             if levelType == "f":
@@ -44,54 +44,53 @@ def heatmap(tiles, levelType):
     return tileSum/100
 
 def showHeatMap(levelType):
-    width = screen.get_width()
-    height = screen.get_height()
-    gameDisplay = pg.display.set_mode((width, height))
-    largeText = pg.font.SysFont("comicsansms", 115)
-    TextPause = text_objects("Paused", largeText)
-    TextPause.center = ((width/2),(height/2))
-    gameDisplay.blit(TextPause)
-    surfaceHM = pg.display.set_mode(100, 100)
-    heatmapMatrix = heatmap5(levelType)
-    for i in heatmapMatrix:
-        for j in heatmapMatrix[i]:
-            if heatmapMatrix[i][j] < 0.5:
-                color = (0, 255*(1-heatmapMatrix[i][j]), 0)
-            else:
-                color = (255*(heatmapMatrix[i][j]), 0, 0)
-            pg.draw.rect(surfaceHM, color, pg.rect(i*5, j*5, 5, 5))
+    # width = screen.get_width()
+    # height = screen.get_height()
+    # gameDisplay = pg.display.set_mode((width, height))
+    # largeText = pg.font.SysFont("comicsansms", 115)
+    # TextPause = text_objects("Paused", largeText)
+    # TextPause.center = ((width/2),(height/2))
+    # gameDisplay.blit(TextPause)
+    # surfaceHM = pg.display.set_mode(100, 100)
+    # heatmapMatrix = heatmap5(levelType)
+    # for i in heatmapMatrix:
+    #     for j in heatmapMatrix[i]:
+    #         if heatmapMatrix[i][j] < 0.5:
+    #             color = (0, 255*(1-heatmapMatrix[i][j]), 0)
+    #         else:
+    #             color = (255*(heatmapMatrix[i][j]), 0, 0)
+    #         pg.draw.rect(surfaceHM, color, pg.rect(i*5, j*5, 5, 5))
+    startX = 370
+    startY = 80
+    x = startX
+    y = startY
+    side = 100
+    spacer = side + 10
+
+    # heatMap = heatmap(tile_array, "f")
+    heatMap = []
+    for i in range(5):
+        row = []
+        for j in range(5):
+            row.append(random.uniform(0, 1))
+        heatMap.append(row)
+
+    for row in heatMap:
+        for heatMapValue in row:
+            surface = pg.display.get_surface()
+            box = pg.Rect((x, y), (side, side))
+            colorScale = int(round(255 * heatMapValue))
+            surface.fill(Color((0, colorScale, 0)), box)
+            y += spacer
+
+        x += spacer
+        y = startY
 
 # button("Continue", 150, 450, 100, 50, "green", "bright_green", "unpause")
 # button("Quit", 550, 450, 100, 50, "red", "bright_red", "quitgame")
 pg.init()
 screen = pg.display.set_mode((1280, 700))
 screen.fill(Color("white"))
-
-startX = 370
-startY = 80
-x = startX
-y = startY
-side = 100
-spacer = side + 10
-
-# heatMap = heatmap(tile_array, "f")
-heatMap = []
-for i in range(5):
-    row = []
-    for j in range(5):
-        row.append(random.uniform(0, 1))
-    heatMap.append(row)
-
-for row in heatMap:
-    for heatMapValue in row:
-        surface = pg.display.get_surface()
-        box = pg.Rect((x, y), (side, side))
-        colorScale = int(round(255 * heatMapValue))
-        surface.fill(Color((0, colorScale, 0)), box)
-        y += spacer
-
-    x += spacer
-    y = startY
 
 def gradientRect(window, left_colour, right_colour, target_rect ):
     colour_rect = pg.Surface((2, 2))
