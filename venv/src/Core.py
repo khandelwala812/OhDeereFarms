@@ -140,9 +140,9 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
         if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_1.png').convert()
-        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_2.png').convert()
-        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_4.png').convert()
@@ -205,9 +205,9 @@ class Background():
             img = pygame.image.load('assets/plants/pepper_4.png').convert()
         if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_1.png').convert()
-        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantalope"):
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_2.png').convert()
-        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantalope"):
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_3.png').convert()
         if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "cantaloupe"):
             img = pygame.image.load('assets/plants/cantaloupe_4.png').convert()
@@ -263,11 +263,11 @@ class Player(pygame.sprite.Sprite):
         self.dText = self.font.render('D', True, (144, 200, 144))
 
         self.cropText = self.font.render('Crop Selected', True, (173, 216, 230))
-        self.cropIcon = pygame.image.load('assets/plants/icons/melon.png')
+        self.cropIcon = pygame.image.load('assets/plants/icons/pepper.png')
         self.cropRect = self.cropIcon.get_rect(center = (1140, 565))
 
         self.upgradeText = self.font.render('Next Upgrade', True, (255, 114, 118))
-        self.upgradeIcon = pygame.image.load('assets/plants/icons/grape.png')
+        self.upgradeIcon = pygame.image.load('assets/plants/icons/radish.png')
         self.upgradeRect = self.upgradeText.get_rect(center = (1275, 615))
 
         #self.hud = pygame.Surface((1280,120))
@@ -322,18 +322,32 @@ class Player(pygame.sprite.Sprite):
                 self.ccurrency -= 1
                 #add visual effect
         elif pressed_keys[pygame.K_u]:
-            if self.seedIndexMax < 1 and self.ccurrency > 10:
-                self.ccurrency -= 10
-                self.seedIndexMax = 1
-            elif self.seedIndexMax < 2 and self.ccurrency > 20:
-                self.ccurrency -= 20
-                self.seedIndexMax = 2
+            if self.toggle:
+                if self.seedIndexMax < 1 and self.ccurrency >= 10:
+                    self.ccurrency -= 10
+                    self.seedIndexMax = 1
+                    self.upgradeIcon = pygame.image.load('assets/plants/icons/cantaloupe.png')
+                elif self.seedIndexMax < 2 and self.ccurrency >= 20:
+                    self.ccurrency -= 20
+                    self.seedIndexMax = 2
+                    self.upgradeIcon = pygame.image.load('assets/plants/icons/melon.png')
+                elif self.seedIndexMax < 3 and self.ccurrency >= 30:
+                    self.ccurrency -= 30
+                    self.seedIndexMax = 3
+                    self.upgradeIcon = pygame.image.load('assets/plants/icons/grape.png')
+                elif self.seedIndexMax < 4 and self.ccurrency >= 40:
+                    self.ccurrency -= 40
+                    self.seedIndexMax = 4
+                self.toggle = False
         elif pressed_keys[pygame.K_1]:
             if self.toggle:
                 if self.seedIndex != self.seedIndexMax:
                     self.seedIndex += 1
-                if self.seedIndex == self.seedIndexMax:
+                    self.cropIcon = pygame.image.load('assets/plants/icons/' + self.seeds[self.seedIndex] + '.png')
+                    print(self.seedIndex)
+                elif self.seedIndex == self.seedIndexMax:
                     self.seedIndex = 0
+                    self.cropIcon = pygame.image.load('assets/plants/icons/' + self.seeds[self.seedIndex] + '.png')
                 self.toggle = False
 
         else:
