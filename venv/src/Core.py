@@ -83,16 +83,16 @@ class Background():
     def getTile(self):
         a1 = (self.bgX+640-1280)/-96
         a2 = (self.bgY-360)/-96
-        print(f"{self.bgX} {self.bgY}")
-        print(f"{a1} {a2}")
         return tile_array[int(a1)][int(a2)]
     def updateTile(self):
         a1 = int((self.bgX+640-1280)/-96)
         a2 = int((self.bgY-360)/-96)
         if(tile_array[a1][a2].condition == "empty"):
             img = pygame.image.load('assets/plot/untilled_plot.png').convert()
-        if(tile_array[a1][a2].condition == "tilled"):
+        if(tile_array[a1][a2].condition == "tilled" and tile_array[a1][a2].crop == None):
             img = pygame.image.load('assets/plot/tilled_plot.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -109,6 +109,7 @@ class Background():
             img = pygame.image.load('assets/grass/grass_4.png').convert()
         if(tile_array[a1][a2].condition == "grass_5"):
             img = pygame.image.load('assets/grass/grass_5.png').convert()
+
         self.surface.blit(img, (int(a1)*96, int(a2)*96))
 
 
@@ -141,8 +142,17 @@ class Player(pygame.sprite.Sprite):
                 tileOn.setCondition(1)
                 print(tileOn.condition)
                 back_ground.updateTile()
+        elif pressed_keys[pygame.K_p]:
+            tileOn = back_ground.getTile()
+            print(tileOn.condition)
+            if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
+                tileOn.crop = Crop("melon", 10, 10, .1)
+                tileOn.setCondition(2)
+                print(tileOn.crop.type)
+                back_ground.updateTile()
 
 john = Player()
+seed = "melon"
 back_ground = Background()
 
 while running:

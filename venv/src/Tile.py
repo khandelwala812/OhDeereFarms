@@ -32,6 +32,14 @@ class Tile:
         self._growthTime = time
 
     @property
+    def crop(self):
+        return self._crop
+
+    @crop.setter
+    def crop(self, crop):
+        self._crop = crop
+
+    @property
     def condition(self):
         return CONDITIONS[self._condition]
 
