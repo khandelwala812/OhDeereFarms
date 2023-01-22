@@ -460,7 +460,7 @@ class Player(pygame.sprite.Sprite):
         self.seedIndexMax = 0
         self.toggle = True
 
-        self.wcurrency = 300
+        self.wcurrency = 100
         self.ccurrency = 100
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
@@ -581,8 +581,8 @@ class Player(pygame.sprite.Sprite):
             ):
                 sound4 = pygame.mixer.Sound("assets/music/plant.wav")
                 pygame.mixer.find_channel(True).play(sound4)
-                tileOn.crop = Crop(self.seeds[self.seedIndex], 2*(self.seedIndex+1), 15*(self.seedIndex+1), 10*(self.seedIndex+1))
-                self.decreaseW(2*(self.seedIndex+1))
+                tileOn.crop = Crop(self.seeds[self.seedIndex], 5*(self.seedIndex+1), 10*(self.seedIndex+1), 10*(self.seedIndex+1))
+                self.decreaseW(5*(self.seedIndex+1))
                 tileOn.setCondition(2)
                 back_ground.updateTile()
                 self.image = pygame.image.load(action_images[counter])
@@ -595,7 +595,7 @@ class Player(pygame.sprite.Sprite):
                 sound3 = pygame.mixer.Sound("assets/music/harvest.wav")
                 pygame.mixer.find_channel(True).play(sound3)
                 tileOn.setCondition(0)
-                self.increaseC(15*(tileOn.crop.yields))
+                self.increaseC(10*(tileOn.crop.yields))
                 tileOn.crop = None
                 back_ground.updateTile()
                 self.image = pygame.image.load(action_images[counter])
