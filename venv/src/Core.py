@@ -653,12 +653,29 @@ class Rain:
 
 
 def showHeatMap(tiles, levelType):
-    startX = (1280 - 595) / 2
-    startY = (660 - 595) / 2
+    startX = 342.5
+    startY = 60
     x = startX
     y = startY
     side = 25
     spacer = side + 5
+
+    mapTitle = ""
+    titleX = 0
+    if levelType == "f":
+        mapTitle = "Fertilizer Map"
+        titleX = 380
+    elif levelType == "t":
+        mapTitle = "Tillage Map"
+        titleX = 450
+    else:
+        mapTitle = "Same Crop Map"
+        titleX = 380
+
+    font = pygame.font.Font("assets/Daydream.ttf", 40)
+    title = font.render(mapTitle, True, (255, 255, 255))
+    titleSurface = pygame.display.get_surface()
+    titleSurface.blit(title, (titleX, 0))
 
     heatMap = heatmap5(tiles, levelType)
     for row in heatMap:
