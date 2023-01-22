@@ -261,7 +261,7 @@ while running:
     SCREEN.blit(john.wasdText, (250, 590))
 
     growStuff()
-    timeAni = pygame.time.get_ticks() / 600
+    timeAni = pygame.time.get_ticks() / 200
     pressed_keys = pygame.key.get_pressed()
     john.move(pressed_keys)
     # heatmap.show(pressed_keys)
