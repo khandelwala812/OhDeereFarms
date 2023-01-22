@@ -310,15 +310,16 @@ class Player(pygame.sprite.Sprite):
             if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
                 tileOn.setCondition(0)
                 tileOn.crop = None
-                #get money
+                self.ccurrency += 10
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_f]:
             tileOn = back_ground.getTile()
-            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling"):
-                tileOn.fertilizerLevel += .02
+            if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling") and tileOn.crop.growthTime > 1:
+                tileOn.addFertilizer(.02)
 
-                lastFertilizeTime = time.time()
-                #use money
+                tileOn.lastFertilizeTime = time.time()
+
+                self.ccurrency -= 1
                 #add visual effect
         elif pressed_keys[pygame.K_u]:
             if self.seedIndexMax < 1 and self.ccurrency > 20:
@@ -385,7 +386,6 @@ def growStuff():
     for i in range(0, 100):
         for j in range(0, 100):
             timeVar = time.time()
-
             if isinstance(tile_array[i][j], Tile) and (tile_array[i][j].crop != None) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime):
                 tile_array[i][j].growTile()
                 #take money
