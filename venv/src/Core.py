@@ -18,7 +18,7 @@ musicPlaylist = [
 ]
 startTime = time.time()
 mixer.music.load(musicPlaylist[0])
-mixer.music.set_volume(0)
+mixer.music.set_volume(0.7)
 coins = 100
 FPS = 80
 FramePerSec = pygame.time.Clock()
@@ -91,20 +91,21 @@ class PausedClass:
 class EndClass:
     def __init__(self):
         self.ended = False
-        self.font = pygame.font.Font("assets/Daydream.ttf", 40)
+        self.font = pygame.font.Font("assets/Daydream.ttf", 80)
         self.endTime = 0
         self.r, self.g, self.b = 160, 0, 0
 
         self.descriptionText = self.font.render(
             "END", True, (self.r, self.g, self.b)
         )
-        self.timeText = self.font.render(f"You finished in {self.endTime}", True, (self.r, self.g, self.b))
+        self.font = pygame.font.Font("assets/Daydream.ttf", 40)
+        self.timeText = self.font.render(f"You finished in {self.endTime}", True, (50, 215, 255))
 
     def Paused(self):
         paused = True
         while paused:
-            SCREEN.blit(ender.descriptionText, (SCREEN_WIDTH/2-150, SCREEN_HEIGHT/2-50))
-            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+50))
+            SCREEN.blit(ender.descriptionText, (SCREEN_WIDTH/2-150, SCREEN_HEIGHT/2-150))
+            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+150))
             pygame.display.update()
             FramePerSec.tick(FPS)
             for event in pygame.event.get():
@@ -114,9 +115,9 @@ class EndClass:
                     pygame.quit()
                     sys.exit()
             SCREEN.blit(
-                ender.descriptionText, (SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 50)
+                ender.descriptionText, (SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 150)
             )
-            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+50))
+            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+150))
             if self.b == 0 and not self.r == 0:
                 if self.r == 160 and self.g < 160:
                     self.g += 1
@@ -132,10 +133,11 @@ class EndClass:
                     self.r += 1
                 elif self.b > 0 and self.r == 160:
                     self.b -= 1
+            self.font = pygame.font.Font("assets/Daydream.ttf", 80)
             self.descriptionText = self.font.render(
                 "END", True, (self.r, self.g, self.b)
             )
-            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+50))
+            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+150))
 
 
 class Background:
@@ -459,7 +461,7 @@ class Player(pygame.sprite.Sprite):
         self.toggle = True
 
         self.wcurrency = 100
-        self.ccurrency = 999
+        self.ccurrency = 100
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
         self.rect = self.surf.get_rect(center=(655, 265))
@@ -835,13 +837,13 @@ while running:
             continue
         if john.ccurrency >= 1000 and not ender.ended:
             if ender.endTime == 0:
-                ender.timeText = ender.font.render(f"You finished in  {int(time.time()-startTime)}  seconds", True, (ender.r, ender.g, ender.b))
+                ender.timeText = ender.font.render(f"You finished in  {int(time.time()-startTime)}  seconds", True, (50, 215, 255))
                 ender.endTime = int(time.time() - startTime)
 
             SCREEN.blit(
-                ender.descriptionText, (SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 50)
+                ender.descriptionText, (SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 150)
             )
-            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+50))
+            SCREEN.blit(ender.timeText, (SCREEN_WIDTH/2-450, SCREEN_HEIGHT/2+150))
             ender.Paused()
             pygame.display.update()
             FramePerSec.tick(FPS)
