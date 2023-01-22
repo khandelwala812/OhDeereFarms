@@ -54,6 +54,17 @@ class PausedClass:
     def Paused(self):
         paused = True
         while paused:
+            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-250, SCREEN_HEIGHT/2-50))
+            pygame.display.update()
+            FramePerSec.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    paused = False
+                elif event.type == pygame.QUIT:
+                    paused = False
+                    running = False
+                    pygame.quit()
+                    sys.exit()
             SCREEN.blit(
                 pauser.descriptionText, (SCREEN_WIDTH / 2 - 250, SCREEN_HEIGHT / 2 - 50)
             )
@@ -75,6 +86,7 @@ class PausedClass:
             self.descriptionText = self.font.render(
                 "PAUSED", True, (self.r, self.g, self.b)
             )
+
 
 
 class Background:
@@ -621,9 +633,8 @@ class Rain:
         self.lastRain = time.time()
         self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self.bgimage = pygame.transform.scale(self.bgimage, self.DEFAULT_IMAGE_SIZE)
-
     def generateWeather(self, tiles):
-        isRaining = 1  # random.uniform(0, 1) < 0.1
+        isRaining = 1#random.uniform(0, 1) < 0.1
 
         while isRaining:
             SCREEN.blit(self.bgimage)
@@ -633,10 +644,10 @@ class Rain:
             tillageVal = heatmap5(tiles, "t")
             sameCropVal = heatmap5(tiles, "s")
             #############################___FIX___####################################################################
-            # weatherVal = int(round((fertilizerVal + tillageVal + sameCropVal) / 3))
+            #weatherVal = int(round((fertilizerVal + tillageVal + sameCropVal) / 3))
             offset = 10
-            # john.increaseW(random.randint(weatherVal, weatherVal + offset))
-
+            #john.increaseW(random.randint(weatherVal, weatherVal + offset))
+       
     def render(self):
         SCREEN.blit(self.bgimage, (0, 0))
 
@@ -765,7 +776,7 @@ while running:
             strt.start = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             SCREEN.blit(
-                pauser.descriptionText, (SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2 - 50)
+                pauser.descriptionText, (SCREEN_WIDTH / 2 - 250, SCREEN_HEIGHT / 2 - 50)
             )
             pauser.Paused()
             pygame.display.update()
