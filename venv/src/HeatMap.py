@@ -19,7 +19,7 @@ def heatmap5(tiles, levelType):
                     if levelType == "f":
                         tileSum += tiles[k][l].fertilizerLevel
                     elif levelType == "t":
-                        tileSum += tiles[k][l].tillage
+                        tileSum += tiles[k][l].tillage / 25
                     elif levelType == "s":
                         if tiles[k][l].sameCrop < 4:
                             tileSum += tiles[k][l].sameCrop / 3

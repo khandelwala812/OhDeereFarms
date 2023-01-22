@@ -555,7 +555,7 @@ class Player(pygame.sprite.Sprite):
                 tileOn.addFertilizer(0.02)
 
                 tileOn.lastFertilizeTime = time.time()
-                self.decreaseC(-1)
+                self.decreaseC(1)
                 self.image = pygame.image.load(action_images[counter])
                 # add visual effect
             elif isinstance(tileOn, RandomTile):
@@ -648,13 +648,12 @@ def showHeatMap(tiles, levelType):
     side = 25
     spacer = side + 5
 
-    heatMap1 = heatmap5(tiles, levelType)
-    for i in range(20):
-        for j in range(20):
-            heatMapValue = heatMap1[i][j]
+    heatMap = heatmap5(tiles, levelType)
+    for row in heatMap:
+        for heatMapValue in row:
             surface = pygame.display.get_surface()
             box = pygame.Rect((x, y), (side, side))
-            colorScale = int(255 * heatMapValue)
+            colorScale = min(int(255 * heatMapValue), 255)
             surface.fill(Color((0, colorScale, 0)), box)
             y += spacer
 
