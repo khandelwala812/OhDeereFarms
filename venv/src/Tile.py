@@ -35,21 +35,20 @@ class Tile:
     def condition(self):
         return CONDITIONS[self._condition]
 
-    @condition.setter
-    def condition(self, condition):
+    def setCondition(self, condition):
         oldCondition = self._condition
         self._condition = condition
 
-        if (oldCondition == len(CONDITIONS) - 1 and condition == 0):
+        if oldCondition == len(CONDITIONS) - 1 and condition == 0:
             if self._crop is not None and self._crop.type == self._lastCrop:
                 self._sameCrop += 1
             else:
                 self._sameCrop = 0
 
-        if (condition == 1):
+        if condition == 1:
             now = int(round(time.time()))
 
-            if (self._timeTilled[0] == 0):
+            if self._timeTilled[0] == 0:
                 self._timeTilled = now, 0
             else:
                 prevTime = self._timeTilled[0]
