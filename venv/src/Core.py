@@ -332,7 +332,7 @@ class Player(pygame.sprite.Sprite):
             self.dText = self.font.render('D', True, (144, 200, 144))
 
 
-class Rain():
+class Rain:
     def __init__(self):
         self.bgimage = pygame.image.load('assets/rain.png')
         self.rectBGimg = self.bgimage.get_rect()
