@@ -317,9 +317,6 @@ def growStuff():
                 tile_array[i][j].growthTime = timeVar
                 back_ground.updateTileGrow(i, j)
 
-def rain():
-    print("raining")
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
