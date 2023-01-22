@@ -306,7 +306,7 @@ class Player(pygame.sprite.Sprite):
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
         #self.hud.fill((0,255,255))
-    
+
     def increaseW(self, water):
         self.wcurrency += water
 
@@ -318,7 +318,7 @@ class Player(pygame.sprite.Sprite):
 
     def increaseC(self, coin):
         self.ccurrency += coin
-    
+
     def decreaseC(self, coin):
         self.ccurrency -= coin
 
@@ -445,7 +445,6 @@ class Rain:
         self.bgX1 = 0
 
         self.moving_speed = 5
-    
 
     def generateWeather(self, tiles):
         isRaining = 1#random.uniform(0, 1) < 0.1
@@ -468,7 +467,7 @@ class Rain:
     def render(self):
         SCREEN.blit(self.bgimage, (self.bgX1, self.bgY1))
 
-def showHeatMap(tiles):
+def showHeatMap(tiles, levelType):
     startX = (1280 - 595) / 2
     startY = (660 - 595) / 2
     x = startX
@@ -476,7 +475,7 @@ def showHeatMap(tiles):
     side = 25
     spacer = side + 5
 
-    heatMap1 = heatmap5(tiles, "f")
+    heatMap1 = heatmap5(tiles, levelType)
     for i in range(20):
         for j in range(20):
             heatMapValue = heatMap1[i][j]
@@ -624,7 +623,11 @@ while running:
     john.move(pressed_keys)
 
     if pressed_keys[pygame.K_m]:
-        showHeatMap(tile_array)
+        showHeatMap(tile_array, "f")
+    elif pressed_keys[pygame.K_n]:
+        showHeatMap(tile_array, "t")
+    elif pressed_keys[pygame.K_b]:
+        showHeatMap(tile_array, "s")
 
     pygame.display.update()
     FramePerSec.tick(FPS)
