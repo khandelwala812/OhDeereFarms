@@ -109,6 +109,45 @@ class Background():
             img = pygame.image.load('assets/plot/tilled_plot.png').convert()
         if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "melon"):
             img = pygame.image.load('assets/plants/melon_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_4.png').convert()
+        if(tile_array[a1][a2].condition == "pond_1"):
+            img = pygame.image.load('assets/pond/pond_1.png').convert()
+        if(tile_array[a1][a2].condition == "pond_2"):
+            img = pygame.image.load('assets/pond/pond_2.png').convert()
+        if(tile_array[a1][a2].condition == "pond_3"):
+            img = pygame.image.load('assets/pond/pond_3.png').convert()
+        if(tile_array[a1][a2].condition == "grass_1"):
+            img = pygame.image.load('assets/grass/grass_1.png').convert()
+        if(tile_array[a1][a2].condition == "grass_2"):
+            img = pygame.image.load('assets/grass/grass_2.png').convert()
+        if(tile_array[a1][a2].condition == "grass_3"):
+            img = pygame.image.load('assets/grass/grass_3.png').convert()
+        if(tile_array[a1][a2].condition == "grass_4"):
+            img = pygame.image.load('assets/grass/grass_4.png').convert()
+        if(tile_array[a1][a2].condition == "grass_5"):
+            img = pygame.image.load('assets/grass/grass_5.png').convert()
+
+        self.surface.blit(img, (int(a1)*96, int(a2)*96))
+    def updateTileGrow(self, x, y):
+        a1 = x
+        a2 = y
+        if(tile_array[a1][a2].condition == "empty"):
+            img = pygame.image.load('assets/plot/untilled_plot.png').convert()
+        if(tile_array[a1][a2].condition == "tilled" and tile_array[a1][a2].crop == None):
+            img = pygame.image.load('assets/plot/tilled_plot.png').convert()
+        if(tile_array[a1][a2].condition == "seed" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_1.png').convert()
+        if(tile_array[a1][a2].condition == "seedling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_2.png').convert()
+        if(tile_array[a1][a2].condition == "hapling" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_3.png').convert()
+        if(tile_array[a1][a2].condition == "harvest" and tile_array[a1][a2].crop.type == "melon"):
+            img = pygame.image.load('assets/plants/melon_4.png').convert()
         if(tile_array[a1][a2].condition == "pond_1"):
             img = pygame.image.load('assets/pond/pond_1.png').convert()
         if(tile_array[a1][a2].condition == "pond_2"):
@@ -128,21 +167,27 @@ class Background():
 
         self.surface.blit(img, (int(a1)*96, int(a2)*96))
 
-
+    for i in range(0, 100):
+        for j in range(0, 100):
+            timeVar = time.time()
+            if (isinstance(tile_array[i][j], Tile)) and (tile_array[i][j].crop != None) and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") :
+                tile_array[i][j].growTile()
+                #add currency later
+                tile_array[i][j].growthTime = int(timeVar)
+                back_ground.updateTileGrow(i, j)
 moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
 moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
-moving_right_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
-moving_left_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
+moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
+moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
-        self.rect = self.surf.get_rect(center = (655, 265))
+        self.rect = self.surf.get_rect(center=(655, 265))
 
-    def move(self):
-        pressed_keys = pygame.key.get_pressed()
-        counter = int(time) % 2
+    def move(self, pressed_keys):
+        counter = int(timeAni) % 2
         if pressed_keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
         elif pressed_keys[pygame.K_s]:
@@ -162,14 +207,35 @@ class Player(pygame.sprite.Sprite):
             tileOn = back_ground.getTile()
             print(tileOn.condition)
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
-                tileOn.crop = Crop("melon", 10, 10, .1)
+                tileOn.crop = Crop("melon", 10, 10, 1)
                 tileOn.setCondition(2)
                 print(tileOn.crop.type)
+                back_ground.updateTile()
+        elif pressed_keys[pygame.K_h]:
+            tileOn = back_ground.getTile()
+            print(tileOn.condition)
+            if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
+                tileOn.setCondition(0)
+                tileOn.crop = None
+                #get money
                 back_ground.updateTile()
 
 john = Player()
 seed = "melon"
 back_ground = Background()
+
+def growStuff():
+    for i in range(0, 100):
+        for j in range(0, 100):
+            timeVar = time.time()
+
+            if isinstance(tile_array[i][j], Tile) and (tile_array[i][j].crop != None) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime):
+                tile_array[i][j].growTile()
+                #take money
+                tile_array[i][j].growthTime = timeVar
+                back_ground.updateTileGrow(i, j)
+
+
 
 while running:
     for event in pygame.event.get():
@@ -185,11 +251,11 @@ while running:
     back_ground.render()
 
     SCREEN.blit(john.image, john.rect)
-
-    time = pygame.time.get_ticks() / 600
-    john.move()
-
-
+    growStuff()
+    timeAni = pygame.time.get_ticks() / 600
+    pressed_keys = pygame.key.get_pressed()
+    john.move(pressed_keys)
+    # heatmap.show(pressed_keys)
 
     pygame.display.update()
     FramePerSec.tick(FPS)
