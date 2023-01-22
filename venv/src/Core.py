@@ -38,22 +38,31 @@ for x_parse in range(0, 20):
 
 class PausedClass():
     def __init__(self):
-        self.font = pygame.font.Font('assets/Daydream.ttf', 60)
-        self.descriptionText = self.font.render('PAUSED', True, (0, 0, 0))
+        self.font = pygame.font.Font('assets/Daydream.ttf', 80)
+
+        self.r, self.g, self.b = 160, 0, 0
+
+        self.descriptionText = self.font.render('PAUSED', True, (self.r, self.g, self.b))
     def Paused(self):
         paused = True
         while paused:
-            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-50))
-            pygame.display.update()
-            FramePerSec.tick(FPS)
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    paused = False
-                elif event.type == pygame.QUIT:
-                    paused = False
-                    running = False
-                    pygame.quit()
-                    sys.exit()
+            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-250, SCREEN_HEIGHT/2-50))
+            if self.b == 0 and not self.r == 0:
+                if self.r == 160 and self.g < 160:
+                    self.g += 1
+                elif self.r > 0 and self.g == 160:
+                    self.r -= 1
+            elif self.r == 0 and not self.g == 0:
+                if self.g == 160 and self.b < 160:
+                    self.b += 1
+                elif self.g > 0 and self.b == 160:
+                    self.g -= 1
+            elif self.g == 0:
+                if self.b == 160 and self.r < 160:
+                    self.r += 1
+                elif self.b > 0 and self.r == 160:
+                    self.b -= 1
+            self.descriptionText = self.font.render('PAUSED', True, (self.r, self.g, self.b))
 
 class Background():
     def __init__(self):
@@ -268,6 +277,11 @@ class Player(pygame.sprite.Sprite):
         self.aText = self.font.render('A', True, (144, 200, 144))
         self.sText = self.font.render('S', True, (144, 200, 144))
         self.dText = self.font.render('D', True, (144, 200, 144))
+
+        self.font = pygame.font.Font('assets/Daydream.ttf', 18)
+        self.mapText = self.font.render('(M) H-Map', True, (218, 112, 214))
+
+        self.font = pygame.font.Font('assets/Daydream.ttf', 24)
 
         self.tillText = self.font.render('(J) Till', True, (233, 116, 80))
         self.plantText = self.font.render('(K) Plant', True, (152, 251, 152))
@@ -579,10 +593,12 @@ while running:
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)
 
-    SCREEN.blit(john.wText, (80, 575))
-    SCREEN.blit(john.aText, (50, 605))
-    SCREEN.blit(john.sText, (80, 605))
-    SCREEN.blit(john.dText, (110, 605))
+    SCREEN.blit(john.wText, (70, 540))
+    SCREEN.blit(john.aText, (40, 570))
+    SCREEN.blit(john.sText, (70, 570))
+    SCREEN.blit(john.dText, (100, 570))
+
+    SCREEN.blit(john.mapText, (20, 620))
 
     SCREEN.blit(john.tillText, (170, 525))
     SCREEN.blit(john.plantText, (185, 560))
