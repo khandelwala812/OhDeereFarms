@@ -167,18 +167,6 @@ class Background():
 
         self.surface.blit(img, (int(a1)*96, int(a2)*96))
 
-    for i in range(0, 100):
-        for j in range(0, 100):
-            timeVar = time.time()
-            if (isinstance(tile_array[i][j], Tile)) and (tile_array[i][j].crop != None) and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") :
-                tile_array[i][j].growTile()
-                #add currency later
-                tile_array[i][j].growthTime = int(timeVar)
-                back_ground.updateTileGrow(i, j)
-moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
-moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
-moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
-moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -186,7 +174,23 @@ class Player(pygame.sprite.Sprite):
         self.surf = pygame.Surface((30, 50))
         self.rect = self.surf.get_rect(center=(655, 265))
 
+        self.log = pygame.image.load("assets/log.png")
+        self.hud = pygame.Surface((1280,500))
+        self.hud_rect = self.hud.get_rect(center = (640, 600))
+
+        font = pygame.font.Font('assets/Daydream.ttf', 24)
+        self.moveText = font.render('Movement', True, (0, 200, 0))
+        self.wasdText = font.render('WASD', True, (144, 200, 144))
+
+        #self.hud = pygame.Surface((1280,120))
+        #self.hud_rect = self.hud.get_rect(center = (640, 600))
+        #self.hud.fill((0,255,255))
+
     def move(self, pressed_keys):
+        moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
+        moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
+        moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
+        moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
         counter = int(timeAni) % 2
         if pressed_keys[pygame.K_w]:
             self.image = pygame.image.load(moving_up_images[counter])
@@ -235,8 +239,6 @@ def growStuff():
                 tile_array[i][j].growthTime = timeVar
                 back_ground.updateTileGrow(i, j)
 
-
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -251,6 +253,10 @@ while running:
     back_ground.render()
 
     SCREEN.blit(john.image, john.rect)
+    SCREEN.blit(john.log, john.hud_rect)
+    SCREEN.blit(john.moveText, (200,555))
+    SCREEN.blit(john.wasdText, (250, 590))
+
     growStuff()
     timeAni = pygame.time.get_ticks() / 600
     pressed_keys = pygame.key.get_pressed()
