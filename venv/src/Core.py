@@ -273,6 +273,24 @@ class Player(pygame.sprite.Sprite):
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
         #self.hud.fill((0,255,255))
+    
+    def increaseW(self, water):
+        self.wcurrency += water
+
+    def decreaseW(self, water):
+        self.wcurrency -= water
+
+    def getW(self, water):
+        return self.wcurrency
+
+    def increaseC(self, coin):
+        self.ccurrency += coin
+    
+    def decreaseC(self, coin):
+        self.ccurrency -= coin
+
+    def getC(self, coin):
+        return self.ccurrency
 
     def move(self, pressed_keys):
         moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
