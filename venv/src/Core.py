@@ -241,6 +241,8 @@ class Player(pygame.sprite.Sprite):
         self.seedIndex = 0
         self.seedIndexMax = 3
         self.toggle = True
+        self.wcurrency = 100
+        self.ccurrency = 100
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
         self.rect = self.surf.get_rect(center=(655, 265))
@@ -294,9 +296,9 @@ class Player(pygame.sprite.Sprite):
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_p]:
             tileOn = back_ground.getTile()
-            if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
+            if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None and self.wcurrency >= 10:
                 tileOn.crop = Crop(self.seeds[self.seedIndex], 10, 10, 10)
-                print(tileOn.crop.type)
+                self.wcurrency -= 10
                 tileOn.setCondition(2)
                 back_ground.updateTile()
         elif pressed_keys[pygame.K_h]:
@@ -310,15 +312,11 @@ class Player(pygame.sprite.Sprite):
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and (tileOn.condition == "seed" or tileOn.condition == "seedling" or tileOn.condition == "hapling"):
                 tileOn.fertilizerLevel += .02
-                print("fertilized")
-                print(f"{tileOn.fertilizerLevel}")
 
                 lastFertilizeTime = time.time()
                 #use money
                 #add visual effect
         elif pressed_keys[pygame.K_1]:
-            print(self.seedIndex)
-            print(self.toggle)
             if self.toggle:
                 if self.seedIndex != self.seedIndexMax:
                     self.seedIndex += 1
