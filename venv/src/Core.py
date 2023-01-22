@@ -581,8 +581,8 @@ class Player(pygame.sprite.Sprite):
             ):
                 sound4 = pygame.mixer.Sound("assets/music/plant.wav")
                 pygame.mixer.find_channel(True).play(sound4)
-                tileOn.crop = Crop(self.seeds[self.seedIndex], 10*(self.seedIndex+1), 15*(self.seedIndex+1), 10*(self.seedIndex+1))
-                self.decreaseW(10*(self.seedIndex+1))
+                tileOn.crop = Crop(self.seeds[self.seedIndex], 2*(self.seedIndex+1), 15*(self.seedIndex+1), 10*(self.seedIndex+1))
+                self.decreaseW(2*(self.seedIndex+1))
                 tileOn.setCondition(2)
                 back_ground.updateTile()
                 self.image = pygame.image.load(action_images[counter])
@@ -688,7 +688,6 @@ class Rain:
        
     def render(self):
         SCREEN.blit(self.bgimage, (0, 0))
-
 
 def showHeatMap(tiles, levelType):
     startX = 342.5
