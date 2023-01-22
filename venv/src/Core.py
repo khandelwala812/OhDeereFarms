@@ -198,6 +198,14 @@ class Player(pygame.sprite.Sprite):
                 tileOn.setCondition(2)
                 print(tileOn.crop.type)
                 back_ground.updateTile()
+        elif pressed_keys[pygame.K_h]:
+            tileOn = back_ground.getTile()
+            print(tileOn.condition)
+            if isinstance(tileOn, Tile) and tileOn.condition == "harvest":
+                tileOn.setCondition(0)
+                tileOn.crop = None
+                #get money
+                back_ground.updateTile()
 
 john = Player()
 seed = "melon"
@@ -210,7 +218,7 @@ def growStuff():
 
             if isinstance(tile_array[i][j], Tile) and (tile_array[i][j].crop != None) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime):
                 tile_array[i][j].growTile()
-
+                #take money
                 tile_array[i][j].growthTime = timeVar
                 back_ground.updateTileGrow(i, j)
 
