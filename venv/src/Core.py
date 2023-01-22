@@ -9,9 +9,9 @@ from RandomTile import *
 
 pygame.init()
 
-FPS = 120
+FPS = 80
 FramePerSec = pygame.time.Clock()
-SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
+SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 660
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 running = True
@@ -83,6 +83,8 @@ class Background():
     def getTile(self):
         a1 = (self.bgX+640-1280)/-96
         a2 = (self.bgY-360)/-96
+        print(f"{self.bgX} {self.bgY}")
+        print(f"{a1} {a2}")
         return tile_array[int(a1)][int(a2)]
     def updateTile(self):
         a1 = int((self.bgX+640-1280)/-96)
@@ -132,6 +134,13 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load(moving_right_images[counter])
         elif pressed_keys[pygame.K_a]:
             self.image = pygame.image.load(moving_left_images[counter])
+        elif pressed_keys[pygame.K_t]:
+            tileOn = back_ground.getTile()
+            print(tileOn.condition)
+            if isinstance(tileOn, Tile) and tileOn.condition == "empty":
+                tileOn.setCondition(1)
+                print(tileOn.condition)
+                back_ground.updateTile()
 
 john = Player()
 back_ground = Background()
@@ -150,6 +159,8 @@ while running:
 
     time = pygame.time.get_ticks() / 600
     john.move()
+
+
 
     pygame.display.update()
     FramePerSec.tick(FPS)
