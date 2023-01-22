@@ -306,7 +306,7 @@ class Player(pygame.sprite.Sprite):
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
         #self.hud.fill((0,255,255))
-
+    
     def increaseW(self, water):
         self.wcurrency += water
 
@@ -318,7 +318,7 @@ class Player(pygame.sprite.Sprite):
 
     def increaseC(self, coin):
         self.ccurrency += coin
-
+    
     def decreaseC(self, coin):
         self.ccurrency -= coin
 
@@ -391,7 +391,7 @@ class Player(pygame.sprite.Sprite):
                 tileOn.addFertilizer(.02)
 
                 tileOn.lastFertilizeTime = time.time()
-                self.decreaseC(-1)
+                self.decreaseC(1)
                 self.image = pygame.image.load(action_images[counter])
                 #add visual effect
             elif isinstance(tileOn, RandomTile):
@@ -460,7 +460,7 @@ class Rain:
             #weatherVal = int(round((fertilizerVal + tillageVal + sameCropVal) / 3))
             offset = 10
             #john.increaseW(random.randint(weatherVal, weatherVal + offset))
-
+       
     def render(self):
         SCREEN.blit(self.bgimage, (0, 0))
 
