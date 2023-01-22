@@ -338,6 +338,7 @@ class Player(pygame.sprite.Sprite):
                 elif self.seedIndexMax < 4 and self.ccurrency >= 40:
                     self.ccurrency -= 40
                     self.seedIndexMax = 4
+                    self.upgradeIcon = pygame.image.load('assets/plants/icons/x.png')
                 self.toggle = False
         elif pressed_keys[pygame.K_1]:
             if self.toggle:
