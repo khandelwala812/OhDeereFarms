@@ -685,20 +685,6 @@ class Rain:
         self.lastRain = time.time()
         self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self.bgimage = pygame.transform.scale(self.bgimage, self.DEFAULT_IMAGE_SIZE)
-    def generateWeather(self, tiles):
-        isRaining = 1 # random.uniform(0, 1) < 0.1
-
-        while isRaining:
-            SCREEN.blit(self.bgimage)
-            self.update()
-            self.render()
-            fertilizerVal = heatmap5(tiles, "f")
-            tillageVal = heatmap5(tiles, "t")
-            sameCropVal = heatmap5(tiles, "s")
-            #############################___FIX___####################################################################
-            #weatherVal = int(round((fertilizerVal + tillageVal + sameCropVal) / 3))
-            offset = 10
-            #john.increaseW(random.randint(weatherVal, weatherVal + offset))
        
     def render(self):
         SCREEN.blit(self.bgimage, (0, 0))
