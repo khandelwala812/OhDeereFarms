@@ -38,22 +38,31 @@ for x_parse in range(0, 20):
 
 class PausedClass():
     def __init__(self):
-        self.font = pygame.font.Font('assets/Daydream.ttf', 60)
-        self.descriptionText = self.font.render('PAUSED', True, (0, 0, 0))
+        self.font = pygame.font.Font('assets/Daydream.ttf', 80)
+
+        self.r, self.g, self.b = 160, 0, 0
+
+        self.descriptionText = self.font.render('PAUSED', True, (self.r, self.g, self.b))
     def Paused(self):
         paused = True
         while paused:
-            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-50))
-            pygame.display.update()
-            FramePerSec.tick(FPS)
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    paused = False
-                elif event.type == pygame.QUIT:
-                    paused = False
-                    running = False
-                    pygame.quit()
-                    sys.exit()
+            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-250, SCREEN_HEIGHT/2-50))
+            if self.b == 0 and not self.r == 0:
+                if self.r == 160 and self.g < 160:
+                    self.g += 1
+                elif self.r > 0 and self.g == 160:
+                    self.r -= 1
+            elif self.r == 0 and not self.g == 0:
+                if self.g == 160 and self.b < 160:
+                    self.b += 1
+                elif self.g > 0 and self.b == 160:
+                    self.g -= 1
+            elif self.g == 0:
+                if self.b == 160 and self.r < 160:
+                    self.r += 1
+                elif self.b > 0 and self.r == 160:
+                    self.b -= 1
+            self.descriptionText = self.font.render('PAUSED', True, (self.r, self.g, self.b))
 
 class Background():
     def __init__(self):
@@ -269,6 +278,11 @@ class Player(pygame.sprite.Sprite):
         self.sText = self.font.render('S', True, (144, 200, 144))
         self.dText = self.font.render('D', True, (144, 200, 144))
 
+        self.font = pygame.font.Font('assets/Daydream.ttf', 18)
+        self.mapText = self.font.render('(M) H-Map', True, (218, 112, 214))
+
+        self.font = pygame.font.Font('assets/Daydream.ttf', 24)
+
         self.tillText = self.font.render('(J) Till', True, (233, 116, 80))
         self.plantText = self.font.render('(K) Plant', True, (152, 251, 152))
         self.harvestText = self.font.render('(L) Harvest', True, (221, 160, 221))
@@ -427,15 +441,16 @@ class Rain:
     def __init__(self):
         self.bgimage = pygame.image.load('assets/rain.png')
         self.rectBGimg = self.bgimage.get_rect()
-        self.bgY1 = -1000
-        self.bgX1 = 0
-
-        self.moving_speed = 5
-
+        self.raining = False
+        self.randWait = 45
+        self.lastRain = time.time()
+        self.DEFAULT_IMAGE_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.bgimage = pygame.transform.scale(self.bgimage, self.DEFAULT_IMAGE_SIZE)
     def generateWeather(self, tiles):
         isRaining = 1#random.uniform(0, 1) < 0.1
 
         while isRaining:
+            SCREEN.blit(self.bgimage)
             self.update()
             self.render()
             fertilizerVal = heatmap5(tiles, "f")
@@ -445,13 +460,9 @@ class Rain:
             #weatherVal = int(round((fertilizerVal + tillageVal + sameCropVal) / 3))
             offset = 10
             #john.increaseW(random.randint(weatherVal, weatherVal + offset))
-       
-    def update(self):
-        self.bgY1 += self.moving_speed
-        if self.bgY1 <= -self.rectBGimg.height:
-            self.bgY1 = self.rectBGimg.height
+
     def render(self):
-        SCREEN.blit(self.bgimage, (self.bgX1, self.bgY1))
+        SCREEN.blit(self.bgimage, (0, 0))
 
 def showHeatMap(tiles, levelType):
     startX = (1280 - 595) / 2
@@ -475,7 +486,7 @@ def showHeatMap(tiles, levelType):
 
 john = Player()
 back_ground = Background()
-#rain = Rain()
+rain = Rain()
 
 def growStuff():
     for i in range(0, 100):
@@ -568,8 +579,7 @@ while running:
     back_ground.render()
 
     #rain.generateWeather(tile_array)
-    #rain.update()
-    #rain.render()
+
 
     john.coinAmount = john.font.render(str(john.ccurrency), True, (255, 255, 102))
     john.waterAmount = john.font.render(str(john.wcurrency), True, (0, 191, 255))
@@ -577,10 +587,12 @@ while running:
     SCREEN.blit(john.image, john.rect)
     SCREEN.blit(john.log, john.hud_rect)
 
-    SCREEN.blit(john.wText, (80, 575))
-    SCREEN.blit(john.aText, (50, 605))
-    SCREEN.blit(john.sText, (80, 605))
-    SCREEN.blit(john.dText, (110, 605))
+    SCREEN.blit(john.wText, (70, 540))
+    SCREEN.blit(john.aText, (40, 570))
+    SCREEN.blit(john.sText, (70, 570))
+    SCREEN.blit(john.dText, (100, 570))
+
+    SCREEN.blit(john.mapText, (20, 620))
 
     SCREEN.blit(john.tillText, (170, 525))
     SCREEN.blit(john.plantText, (185, 560))
@@ -611,6 +623,16 @@ while running:
         showHeatMap(tile_array, "t")
     elif pressed_keys[pygame.K_b]:
         showHeatMap(tile_array, "s")
+
+    if rain.raining:
+        rain.render()
+    if time.time() - rain.lastRain > rain.randWait and time.time() - rain.lastRain < rain.randWait+5:
+        rain.raining = True
+    elif time.time() - rain.lastRain > rain.randWait+5:
+        rain.raining = False
+        rain.lastRain = time.time()
+        rain.randWait = random.randint(45, 180)
+
 
     pygame.display.update()
     FramePerSec.tick(FPS)
