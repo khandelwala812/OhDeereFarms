@@ -80,10 +80,35 @@ class Background():
     def getCords(self):
         return (self.bgX+640-1280, self.bgY-360)
 
-    def tileType(self):
+    def getTile(self):
         a1 = (self.bgX+640-1280)/-96
         a2 = (self.bgY-360)/-96
-        print(tile_array[int(a1)][int(a2)].condition)
+        return tile_array[int(a1)][int(a2)]
+    def updateTile(self):
+        a1 = int((self.bgX+640-1280)/-96)
+        a2 = int((self.bgY-360)/-96)
+        if(tile_array[a1][a2].condition == "empty"):
+            img = pygame.image.load('assets/plot/untilled_plot.png').convert()
+        if(tile_array[a1][a2].condition == "tilled"):
+            img = pygame.image.load('assets/plot/tilled_plot.png').convert()
+        if(tile_array[a1][a2].condition == "pond_1"):
+            img = pygame.image.load('assets/pond/pond_1.png').convert()
+        if(tile_array[a1][a2].condition == "pond_2"):
+            img = pygame.image.load('assets/pond/pond_2.png').convert()
+        if(tile_array[a1][a2].condition == "pond_3"):
+            img = pygame.image.load('assets/pond/pond_3.png').convert()
+        if(tile_array[a1][a2].condition == "grass_1"):
+            img = pygame.image.load('assets/grass/grass_1.png').convert()
+        if(tile_array[a1][a2].condition == "grass_2"):
+            img = pygame.image.load('assets/grass/grass_2.png').convert()
+        if(tile_array[a1][a2].condition == "grass_3"):
+            img = pygame.image.load('assets/grass/grass_3.png').convert()
+        if(tile_array[a1][a2].condition == "grass_4"):
+            img = pygame.image.load('assets/grass/grass_4.png').convert()
+        if(tile_array[a1][a2].condition == "grass_5"):
+            img = pygame.image.load('assets/grass/grass_5.png').convert()
+        self.surface.blit(img, (int(a1)*96, int(a2)*96))
+
 
 moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
 moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
@@ -125,6 +150,8 @@ while running:
 
     time = pygame.time.get_ticks() / 600
     john.move()
+
+    back_ground.tileType()
 
     pygame.display.update()
     FramePerSec.tick(FPS)
