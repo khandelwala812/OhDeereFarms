@@ -203,6 +203,19 @@ john = Player()
 seed = "melon"
 back_ground = Background()
 
+def growStuff():
+    for i in range(0, 100):
+        for j in range(0, 100):
+            timeVar = time.time()
+
+            if isinstance(tile_array[i][j], Tile) and (tile_array[i][j].crop != None) and (tile_array[i][j].condition == "seed" or tile_array[i][j].condition == "seedling" or tile_array[i][j].condition == "hapling") and (tile_array[i][j].crop.growthTime <= timeVar - tile_array[i][j].growthTime):
+                tile_array[i][j].growTile()
+
+                tile_array[i][j].growthTime = timeVar
+                back_ground.updateTileGrow(i, j)
+
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -214,7 +227,7 @@ while running:
     back_ground.render()
 
     SCREEN.blit(john.image, john.rect)
-
+    growStuff()
     timeAni = pygame.time.get_ticks() / 600
     pressed_keys = pygame.key.get_pressed()
     john.move(pressed_keys)
