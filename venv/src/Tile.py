@@ -29,7 +29,7 @@ class Tile:
 
     def addFertilizer(self, quantity):
         self._fertilizerLevel += quantity
-        self._crop.growthTime *= (1 - self._fertilizerLevel)
+        self._crop.growthTime *= 1 - self._fertilizerLevel
 
     @growthTime.setter
     def growthTime(self, time):

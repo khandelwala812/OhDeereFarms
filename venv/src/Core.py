@@ -427,7 +427,7 @@ class Rain:
     def render(self):
         SCREEN.blit(self.bgimage, (self.bgX1, self.bgY1))
 
-def showHeatMap():
+def showHeatMap(tiles):
     startX = (1280 - 595) / 2
     startY = (660 - 595) / 2
     x = startX
@@ -435,12 +435,13 @@ def showHeatMap():
     side = 25
     spacer = side + 5
 
-    heatMap = heatmap5(tile_array, "f")
-    for row in heatMap:
-        for heatMapValue in row:
+    heatMap1 = heatmap5(tiles, "f")
+    for i in range(20):
+        for j in range(20):
+            heatMapValue = heatMap1[i][j]
             surface = pygame.display.get_surface()
             box = pygame.Rect((x, y), (side, side))
-            colorScale = int(round(255 * heatMapValue))
+            colorScale = int(255 * heatMapValue)
             surface.fill(Color((0, colorScale, 0)), box)
             y += spacer
 
@@ -571,7 +572,7 @@ while running:
     john.move(pressed_keys)
 
     if pressed_keys[pygame.K_m]:
-        showHeatMap()
+        showHeatMap(tile_array)
 
     pygame.display.update()
     FramePerSec.tick(FPS)
