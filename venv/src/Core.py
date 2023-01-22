@@ -118,8 +118,8 @@ class Background():
 
 moving_up_images = ['assets/john/back/back_facing_move_left.png', 'assets/john/back/back_facing_move_right.png']
 moving_down_images = ['assets/john/front/front_facing_move_left.png', 'assets/john/front/front_facing_move_right.png']
-moving_right_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
-moving_left_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
+moving_left_images = ['assets/john/left/left_move_1.png', 'assets/john/left/left_move_2.png']
+moving_right_images = ['assets/john/right/right_move_1.png', 'assets/john/right/right_move_2.png']
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
