@@ -87,13 +87,13 @@ class Background():
             if not self.bgY+5 > 0:
                 self.bgY += 5
         if pressed_keys[pygame.K_s]:
-            if not self.bgY-5 < -9600:
+            if not self.bgY-5 < -8300:
                 self.bgY -= 5
         if pressed_keys[pygame.K_a]:
             if not self.bgX+5 > 0:
                 self.bgX += 5
         if pressed_keys[pygame.K_d]:
-            if not self.bgX-5 < -9600:
+            if not self.bgX-5 < -8300:
                 self.bgX -= 5
 
     def render(self):
@@ -322,8 +322,12 @@ class Player(pygame.sprite.Sprite):
                 self.ccurrency -= 1
                 #add visual effect
         elif pressed_keys[pygame.K_u]:
-            if self.seedIndexMax < 1 and self.ccurrency > 20:
+            if self.seedIndexMax < 1 and self.ccurrency > 10:
+                self.ccurrency -= 10
                 self.seedIndexMax = 1
+            elif self.seedIndexMax < 2 and self.ccurrency > 20:
+                self.ccurrency -= 20
+                self.seedIndexMax = 2
         elif pressed_keys[pygame.K_1]:
             if self.toggle:
                 if self.seedIndex != self.seedIndexMax:
