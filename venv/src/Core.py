@@ -350,12 +350,10 @@ while running:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             Paused()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-            print("Yo")
-            if musicIndex < len(musicPlaylist) - 1:
+            if musicIndex == 0 or musicIndex == 1:
                 musicIndex += 1
                 mixer.music.load(musicPlaylist[musicIndex])
                 mixer.music.play()
-                print("print")
             else:
                 musicIndex = 0
                 mixer.music.load(musicPlaylist[musicIndex])
