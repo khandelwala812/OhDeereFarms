@@ -220,6 +220,14 @@ class Player(pygame.sprite.Sprite):
         self.sText = self.font.render('S', True, (144, 200, 144))
         self.dText = self.font.render('D', True, (144, 200, 144))
 
+        self.cropText = self.font.render('Crop Selected', True, (173, 216, 230))
+        self.cropIcon = pygame.image.load('assets/plants/icons/melon.png')
+        self.cropRect = self.cropIcon.get_rect(center = (1140, 565))
+
+        self.upgradeText = self.font.render('Next Upgrade', True, (255, 114, 118))
+        self.upgradeIcon = pygame.image.load('assets/plants/icons/grape.png')
+        self.upgradeRect = self.upgradeText.get_rect(center = (1275, 615))
+
         #self.hud = pygame.Surface((1280,120))
         #self.hud_rect = self.hud.get_rect(center = (640, 600))
         #self.hud.fill((0,255,255))
@@ -382,6 +390,10 @@ while running:
     SCREEN.blit(john.aText, (265, 620))
     SCREEN.blit(john.sText, (295, 620))
     SCREEN.blit(john.dText, (325, 620))
+    SCREEN.blit(john.cropText, (810,550))
+    SCREEN.blit(john.cropIcon, john.cropRect)
+    SCREEN.blit(john.upgradeText, (810,600))
+    SCREEN.blit(john.upgradeIcon, john.upgradeRect)
 
     growStuff()
     timeAni = pygame.time.get_ticks() / 200
