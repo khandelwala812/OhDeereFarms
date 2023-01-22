@@ -36,17 +36,24 @@ for x_parse in range(0, 20):
                 else:
                     tile_array[x_val][y_val] = RandomTile()
 
-def Paused():
-    paused = True
-    while paused:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                paused = False
-            elif event.type == pygame.QUIT:
-                paused = False
-                running = False
-                pygame.quit()
-                sys.exit()
+class PausedClass():
+    def __init__(self):
+        self.font = pygame.font.Font('assets/Daydream.ttf', 60)
+        self.descriptionText = self.font.render('PAUSED', True, (0, 0, 0))
+    def Paused(self):
+        paused = True
+        while paused:
+            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-50))
+            pygame.display.update()
+            FramePerSec.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    paused = False
+                elif event.type == pygame.QUIT:
+                    paused = False
+                    running = False
+                    pygame.quit()
+                    sys.exit()
 
 class Background():
     def __init__(self):
@@ -443,6 +450,7 @@ class startScreenCls:
         SCREEN.blit(self.img1, (0,0))
 
 strt = startScreenCls()
+pauser = PausedClass()
 mixer.music.play()
 musicIndex = 0
 while running:
@@ -459,7 +467,11 @@ while running:
         if event.type == pygame.KEYDOWN:
             strt.start = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            Paused()
+            SCREEN.blit(pauser.descriptionText, (SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-50))
+            pauser.Paused()
+            pygame.display.update()
+            FramePerSec.tick(FPS)
+            continue
         if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
             if musicIndex == 0 or musicIndex == 1:
                 musicIndex += 1
