@@ -13,7 +13,7 @@ mixer.init()
 musicPlaylist = ["assets/out-on-the-farm-110607.mp3", "assets/merry-farm.mp3", "assets/country-fun.mp3"]
 mixer.music.load(musicPlaylist[0])
 mixer.music.set_volume(1)
-
+coins = 100
 FPS = 80
 FramePerSec = pygame.time.Clock()
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 660
@@ -236,7 +236,10 @@ class Background():
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.seed = "melon"
+        self.seeds = ["melon", "radish", "pepper"]
+        self.seedIndex = 0
+        self.seedIndexMax = 3
+        self.toggle = True
         self.image = pygame.image.load("assets/john/front/front_facing_1.png")
         self.surf = pygame.Surface((30, 50))
         self.rect = self.surf.get_rect(center=(655, 265))
@@ -291,8 +294,7 @@ class Player(pygame.sprite.Sprite):
         elif pressed_keys[pygame.K_p]:
             tileOn = back_ground.getTile()
             if isinstance(tileOn, Tile) and tileOn.condition == "tilled" and tileOn.crop == None:
-                print(f"{self.seed}")
-                tileOn.crop = Crop(self.seed, 10, 10, 10)
+                tileOn.crop = Crop(self.seeds[self.seedIndex], 10, 10, 10)
                 print(tileOn.crop.type)
                 tileOn.setCondition(2)
                 back_ground.updateTile()
@@ -314,13 +316,15 @@ class Player(pygame.sprite.Sprite):
                 #use money
                 #add visual effect
         elif pressed_keys[pygame.K_1]:
-            self.seed = "melon"
-            print(1)
-        elif pressed_keys[pygame.K_2]:
-            self.seed = "radish"
-            print(2)
-        elif pressed_keys[pygame.K_3]:
-            self.seed = "pepper"
+            print(self.seedIndex)
+            print(self.toggle)
+            if self.toggle:
+                if self.seedIndex != self.seedIndexMax:
+                    self.seedIndex += 1
+                if self.seedIndex == self.seedIndexMax:
+                    self.seedIndex = 0
+                self.toggle = False
+
         else:
             self.image = pygame.image.load(idle_front_images[counter])
             self.wText = self.font.render('W', True, (144, 200, 144))
@@ -385,6 +389,10 @@ while running:
             running = False
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
+            john.toggle = False
+        else:
+            john.toggle = True
         if event.type == pygame.KEYDOWN:
             strt.start = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
