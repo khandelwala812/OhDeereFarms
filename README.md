@@ -7,7 +7,7 @@ A Python farming simulator created during 33 hour hackathon BoilerMake X @ Purdu
   <img src="DSC01108.JPG" alt="drawing" height="200"/>
 <p/>
 
-[<img src="Screenshot 2023-01-23 134428.png" width="50%">]("https://youtu.be/urUhPCK4rVY")
+[Click here for video!](https://youtu.be/urUhPCK4rVY)
 
 
 ## Inspiration
