@@ -2,7 +2,10 @@
 
 Authors: Jack Jiang, Steven Schonlau, Andy Lam, and Avi Khandelwal  
 A Python farming simulator created during 33 hour hackathon BoilerMake X @ Purdue.
-
+<p float="center">
+  <img src="DSC01075.JPG" alt="drawing" height="200"/>
+  <img src="DSC01108.JPG" alt="drawing" height="200"/>
+</>
 
 
 ## Inspiration
