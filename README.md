@@ -7,8 +7,7 @@ A Python farming simulator created during 33 hour hackathon BoilerMake X @ Purdu
   <img src="DSC01108.JPG" alt="drawing" height="200"/>
 <p/>
 
-[Click here for video!](https://youtu.be/urUhPCK4rVY)
-
+[Click here to see the project!](https://devpost.com/software/oh-deere-farms)
 
 ## Inspiration
 We were inspired to create Oh Deere Farms after seeing the John Deere challenge and wanting to create a fun, unique, and creative design for an innovative farming-simulator-esque game. Specifically, our tile mapping system was based on John Deere’s equivalent maps generated from real world data and modeled by a pin worn by one of their representatives.
